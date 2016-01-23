@@ -176,28 +176,6 @@
         <div class="row padding-bottom-sm">
             <div class="col-xs-12">
                 <div class="white-panel inset-shadow-white chart">
-                    <h4 class="text-center padding-bottom-sm">Percentage of Contributions per Authenticated User</h4>
-                    <div id="contributions-per-user-chart">
-                        <canvas id="contributions-per-user" style="max-height:300px;"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row padding-bottom-sm">
-            <div class="col-xs-12">
-                <div class="white-panel inset-shadow-white chart">
-                    <h4 class="text-center padding-bottom-sm">Number of Active Days per Authenticated User</h4>
-                    <div id="days-active-chart">
-                        <canvas id="days-active" style="max-height:300px;"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row padding-bottom-sm">
-            <div class="col-xs-12">
-                <div class="white-panel inset-shadow-white chart">
                     <h4 class="text-center padding-bottom-sm">Total Hourly Activity</h4>
                     <div id="hourly-chart">
                         <canvas id="hourly" style="max-height:300px;"></canvas>
@@ -608,53 +586,6 @@ $(function(){
     var opts = {pointHitDetectionRadius : 1,tooltipTemplate: "<%if(label)\u007B%><%=label%> : <%}%><%=value%><%if(value != 1)\u007B%>% of contributions<%}else\u007B%>% of contribution<%}%>"};
     var hourlyChart = new Chart(ctx).Line(data, opts);
     hourlyChart.draw();
-
-    //Contributions per user
-   var data = {
-        labels: {{contributions_per_user|safe}}['increments'],
-        datasets: [
-            {
-                label: "Contributions Per User",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: {{contributions_per_user|safe}}['task_runs']
-            }
-        ]
-    };
-    $("#contributions-per-user").attr("width", $('#contributions-per-user-chart').width());
-    $("#contributions-per-user").attr("height", 300);
-    var ctx = $("#contributions-per-user")[0].getContext("2d");
-    var opts = {pointHitDetectionRadius : 1,tooltipTemplate: "<%if(label)\u007B%><%=label%> of users made <%}%><%=value%><%if(value != 1)\u007B%>% of contributions<%}else\u007B%>% of contribution<%}%>"};
-    var contributionsPerUserChart = new Chart(ctx).Line(data, opts);
-    contributionsPerUserChart.draw();
-
-
-    //Active days per user
-   var data = {
-        labels: {{active_days_per_user|safe}}['increments'],
-        datasets: [
-            {
-                label: "Active Days Per User",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: {{active_days_per_user|safe}}['days']
-            }
-        ]
-    };
-    $("#days-active").attr("width", $('#days-active-chart').width());
-    $("#days-active").attr("height", 300);
-    var ctx = $("#days-active")[0].getContext("2d");
-    var opts = {pointHitDetectionRadius : 1,tooltipTemplate: "<%if(label)\u007B%><%=label%> of users were active for <%}%><%=value%> <%if(value != 1)\u007B%>days<%}else\u007B%>day<%}%>"};
-    var activeDaysChart = new Chart(ctx).Line(data, opts);
-    activeDaysChart.draw();
 
 
     function formatHours(str) {

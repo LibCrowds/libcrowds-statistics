@@ -88,7 +88,6 @@ def n_countries():
 
         geolite = current_app.root_path + '/../dat/GeoLiteCity.dat'
         gic = pygeoip.GeoIP(geolite)
-
         for row in results:
             loc = gic.record_by_addr(row.ip_address)
             countries.add(loc['country_name'])
@@ -284,53 +283,6 @@ def get_top_n_percent(percentage):
     for row in results:
         n_task_runs = row.sum
     return n_task_runs or 0
-
-
-@memoize(timeout=ONE_HOUR)
-def get_n_percent_days_active(percentage, offset=0):
-    """Return the top n percent of volunteers."""
-    sql = text('''SELECT ROUND(avg(days_acitve)::int, 0)::text avg_days_active
-               FROM (SELECT date_part('day', MAX(finish_time::timestamp) -
-               MIN(finish_time::timestamp)) + 1 as days_acitve
-               FROM task_run WHERE user_id IS NOT NULL
-               GROUP BY user_id ORDER BY days_acitve
-               DESC LIMIT (SELECT (count(*) * :percentage / 100) AS id
-               FROM "user"
-               ) OFFSET (SELECT (count(*) * :offset / 100) AS id FROM "user"
-               )) AS n_task_runs;''')
-    results = session.execute(sql, dict(percentage=percentage, offset=offset))
-    for row in results:
-        n_task_runs = row.avg_days_active
-    return n_task_runs or 0
-
-
-@cache(timeout=ONE_HOUR, key_prefix="site_contributions_per_user")
-def get_contributions_per_user():
-    """Return the average contributions per user in 10% increments."""
-    task_runs = []
-    increments = []
-    auth_task_runs = n_auth_task_runs_site()
-    if auth_task_runs:
-        for i in range(10, 101, 10):
-            n_task_runs = get_top_n_percent(i) - get_top_n_percent(i - 10)
-            percentage = round(n_task_runs * 100 / auth_task_runs, 1)
-            increment = '%s - %s%%' % (i - 9, i)
-            increments.append(increment)
-            task_runs.append(percentage)
-    return dict(increments=increments, task_runs=task_runs)
-
-
-@cache(timeout=ONE_HOUR, key_prefix="site_active_days_per_user")
-def get_active_days_per_user():
-    """Return the average number of active days per user in 10% increments."""
-    days = []
-    increments = []
-    for i in range(10, 101, 10):
-        n_days = get_n_percent_days_active(i, i - 10)
-        increment = '%s - %s%%' % (i - 9, i)
-        increments.append(increment)
-        days.append(n_days)
-    return dict(increments=increments, days=days)
 
 
 @cache(timeout=ONE_HOUR, key_prefix="site_n_avg_days_active")

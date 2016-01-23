@@ -1,0 +1,9 @@
+{
+    "identifier": "libcrowds_statistics",
+    "name": "libcrowds-statistics",
+    "author": "Alexander Mendes",
+    "website": "https://github.com/LibCrowds/libcrowds-statistics",
+    "license": "BSD",
+    "description": "Global statistics page for LibCrowds.",
+    "version": "0.0.1"
+}

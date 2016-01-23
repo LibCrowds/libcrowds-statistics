@@ -21,4 +21,4 @@ class StatisticsBlueprint(Blueprint):
 
         super(StatisticsBlueprint, self).__init__(**defaults)
 
-        self.add_url_rule("/statistics", view_func=index)
+        self.add_url_rule("/", view_func=index)

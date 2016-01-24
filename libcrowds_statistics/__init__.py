@@ -25,8 +25,9 @@ class LibCrowdsStatistics(Plugin):
     def setup_blueprint(self):
         """Setup blueprint."""
         from .blueprint import StatisticsBlueprint
-        template_folder = os.path.abspath('templates')
-        static_folder = os.path.abspath('static')
+        here = os.path.dirname(os.path.abspath(__file__))
+        template_folder = os.path.join(here, 'templates')
+        static_folder = os.path.join(here, 'static')
 
         blueprint = StatisticsBlueprint(template_folder=template_folder,
                                         static_folder=static_folder,

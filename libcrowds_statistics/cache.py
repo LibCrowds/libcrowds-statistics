@@ -184,7 +184,7 @@ def get_task_runs_daily():
     results = session.execute(sql)
     for row in results:
         tasks.append(row.tasks)
-        days.append(row.day)
+        days.append(date_handler(row.day))
     return dict(days=days, tasks=tasks)
 
 
@@ -213,7 +213,7 @@ def get_users_daily():
 
     for row in results:
         users.append(row.users)
-        days.append(row.day)
+        days.append(date_handler(row.day))
     return dict(days=days, users=users)
 
 
@@ -282,7 +282,7 @@ def get_top_n_percent(percentage):
     results = session.execute(sql, dict(percentage=percentage))
     for row in results:
         n_task_runs = row.sum
-    return n_task_runs or 0
+    return int(n_task_runs) or 0
 
 
 @cache(timeout=ONE_HOUR, key_prefix="site_n_avg_days_active")
@@ -298,7 +298,12 @@ def n_avg_days_active():
     results = session.execute(sql)
     for row in results:
         n_days = row.n_days
-    return n_days or 0
+    return int(n_days) or 0
+
+
+def date_handler(obj):
+    """Convert date objects to JSON serializable format."""
+    return obj.isoformat() if hasattr(obj, 'isoformat') else obj
 
 
 def format_hours(hours):

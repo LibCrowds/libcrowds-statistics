@@ -30,6 +30,5 @@ class LibCrowdsStatistics(Plugin):
         static_folder = os.path.join(here, 'static')
 
         blueprint = StatisticsBlueprint(template_folder=template_folder,
-                                        static_folder=static_folder,
-                                        static_url_path='/statistics/static')
+                                        static_folder=static_folder)
         app.register_blueprint(blueprint, url_prefix="/statistics")

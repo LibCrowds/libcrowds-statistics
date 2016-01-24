@@ -4,17 +4,15 @@
 {% import "privacy/locked.html" as privacy %}
 
 {% block content %}
-<span class="set-main-bg" data-bg="pattern-white-wall"></span>
-<!-- Leaflet maps -->
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
- <!--[if lte IE 8]>
-     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
- <![endif]-->
-
-<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
 <link href="{{url_for('static', filename='css/stats/MarkerCluster.css')}}" rel="stylesheet" type="text/css">
 <link href="{{url_for('static', filename='css/stats/MarkerCluster.Default.css')}}" rel="stylesheet" type="text/css">
-<script src="{{url_for('static', filename='js/stats/leaflet.markercluster.js')}}" type="text/javascript"></script>
+<!-- Leaflet maps -->
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
+<![endif]-->
+
+<span class="set-main-bg" data-bg="pattern-white-wall"></span>
 <div class="container container-main">
     {% include "_flash_messages.html" %}
     <div class="row padding-bottom-sm" id="loading-stats">
@@ -185,10 +183,12 @@
         </div>
     </div>
 </div>
+<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
+<script src="{{url_for('static', filename='js/stats/leaflet.markercluster.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='js/vendor/moment.js')}}"></script>
 <script src="{{url_for('static', filename='js/vendor/Chart.js-2.0/Chart.js')}}"></script>
 <script src="{{url_for('static', filename='js/stats/chartconfig.js')}}"></script>
 <script>
-
 $(function(){
     $('#loading-stats').slideUp();
     $('#all-stats').slideDown();

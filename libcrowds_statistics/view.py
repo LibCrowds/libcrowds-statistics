@@ -79,7 +79,7 @@ def index():
 
     return render_template('/stats.html', title=title,
                            description=description,
-                           stats=json.dumps(stats),
                            users=json.dumps(users),
                            tasks=json.dumps(tasks),
+                           projects=json.dumps(projects),
                            locations=json.dumps(locations))

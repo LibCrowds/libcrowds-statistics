@@ -221,7 +221,7 @@ class TestCacheWithData(Test):
 
     def test_task_runs_daily_returns_correct_dates(self):
         d = cache.get_task_runs_daily()
-        days = [str(day.date()) for day in d['days']]
+        days = [day[:10] for day in d['days']]
 
         assert days == [str(self.day2), str(self.day1)]
 
@@ -234,8 +234,7 @@ class TestCacheWithData(Test):
 
     def test_users_daily_returns_correct_dates(self):
         d = cache.get_users_daily()
-
-        days = [str(day.date()) for day in d['days']]
+        days = [day[:10] for day in d['days']]
 
         assert days == [str(self.day2), str(self.day1)]
 

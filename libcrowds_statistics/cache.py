@@ -282,7 +282,7 @@ def get_top_n_percent(percentage):
     results = session.execute(sql, dict(percentage=percentage))
     for row in results:
         n_task_runs = row.sum
-    return int(n_task_runs) or 0
+    return int(n_task_runs) if n_task_runs else 0
 
 
 @cache(timeout=ONE_HOUR, key_prefix="site_n_avg_days_active")
@@ -298,7 +298,7 @@ def n_avg_days_active():
     results = session.execute(sql)
     for row in results:
         n_days = row.n_days
-    return int(n_days) or 0
+    return int(n_days) if n_days else 0
 
 
 def date_handler(obj):

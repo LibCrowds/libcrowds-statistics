@@ -228,7 +228,7 @@ $(function(){
 
 
     //User proportions chart
-        var total = {{stats.n_auth + n_anon}};
+        var total = {{stats.n_auth + stats.n_anon}};
         var label1 = userData['values'][0]['label'] + " : " + Math.round(userData['values'][0]['value'][1]/total*100) + "% (" + userData['values'][0]['value'][1] + " user";
         if (userData['values'][0]['value'][1] != 1) {
             label1 += "s"

@@ -66,7 +66,7 @@ def index():
                              hourly_activity=hourly_activity))
 
     projects = dict(label="Project Statistics",
-                    values=dict(n_published_projects,
+                    values=dict(n_published_projects=n_published_projects,
                                 top5_projects_24_hours=top5_projects_24_hours,
                                 top5_projects_1_week=top5_projects_1_week))
 

@@ -46,36 +46,32 @@ def index():
     n_countries = extra_stats.n_countries()
     top_countries = extra_stats.get_top_countries()
 
-    users = dict(label="User Statistics",
-                 values=dict(n_anon=n_anon,
-                             n_auth=n_auth,
-                             top5_users_24_hours=top5_users_24_hours,
-                             top5_users_1_week=top5_users_1_week,
-                             top_10_percent=top_10_percent,
-                             users_daily=users_daily,
-                             leaderboard=leaderboard,
-                             n_avg_days_active=n_avg_days_active))
+    users = dict(n_anon=n_anon,
+                 n_auth=n_auth,
+                 top5_users_24_hours=top5_users_24_hours,
+                 top5_users_1_week=top5_users_1_week,
+                 top_10_percent=top_10_percent,
+                 users_daily=users_daily,
+                 leaderboard=leaderboard,
+                 n_avg_days_active=n_avg_days_active)
 
-    tasks = dict(label="Task Statistics",
-                 values=dict(n_tasks=n_tasks,
-                             n_task_runs=n_task_runs,
-                             n_auth_task_runs=n_auth_task_runs,
-                             n_tasks_completed=n_tasks_completed,
-                             task_runs_daily=task_runs_daily,
-                             dow=dow,
-                             hourly_activity=hourly_activity))
+    tasks = dict(n_tasks=n_tasks,
+                 n_task_runs=n_task_runs,
+                 n_auth_task_runs=n_auth_task_runs,
+                 n_tasks_completed=n_tasks_completed,
+                 task_runs_daily=task_runs_daily,
+                 dow=dow,
+                 hourly_activity=hourly_activity)
 
-    projects = dict(label="Project Statistics",
-                    values=dict(n_published_projects=n_published_projects,
-                                top5_projects_24_hours=top5_projects_24_hours,
-                                top5_projects_1_week=top5_projects_1_week))
+    projects = dict(n_published_projects=n_published_projects,
+                    top5_projects_24_hours=top5_projects_24_hours,
+                    top5_projects_1_week=top5_projects_1_week)
 
-    locations = dict(label="Location Statistics",
-                     values=dict(locs=locs,
-                                 n_countries=n_countries,
-                                 n_cities=n_cities,
-                                 n_continents=n_continents,
-                                 top_countries=top_countries))
+    locations = dict(locs=locs,
+                     n_countries=n_countries,
+                     n_cities=n_cities,
+                     n_continents=n_continents,
+                     top_countries=top_countries)
 
     return render_template('/stats.html', title=title,
                            description=description,

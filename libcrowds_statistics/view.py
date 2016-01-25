@@ -18,8 +18,7 @@ def index():
     # User stats
     n_anon = extra_stats.n_anon_users()
     n_auth = site_stats.n_auth_users()
-    top5_users_24_hours = site_stats.get_top5_users_24_hours()
-    top5_users_1_week = extra_stats.get_top5_users_1_week()
+    top_5_users_1_week = extra_stats.get_top_n_users_k_days(5, 7)
     n_completed_by_top_10_percent = extra_stats.get_top_n_percent(10)
     users_daily = extra_stats.get_users_daily()
     leaderboard = cached_users.get_leaderboard(10)
@@ -36,8 +35,7 @@ def index():
 
     # Project stats
     n_published_projects = cached_projects.n_published()
-    top5_projects_24_hours = site_stats.get_top5_projects_24_hours()
-    top5_projects_1_week = extra_stats.get_top5_projects_1_week()
+    top_5_pr_1_week = extra_stats.get_top_n_projects_k_days(5, 7)
 
     # Location stats
     locs = extra_stats.get_locations()
@@ -66,9 +64,8 @@ def index():
                            users_daily=json.dumps(users_daily),
                            task_runs_daily=json.dumps(task_runs_daily),
                            top_countries=json.dumps(top_countries),
-                           top5_projects_1_week=top5_projects_1_week,
-                           top5_projects_24_hours=top5_projects_24_hours,
-                           top5_users_24_hours=top5_users_24_hours,
+                           top_5_pr_1_week=json.dumps(top_5_pr_1_week),
+                           top_5_users_1_week=json.dumps(top_5_users_1_week),
                            hourly_activity=json.dumps(hourly_activity),
                            dow=json.dumps(dow),
                            leaderboard=json.dumps(leaderboard))

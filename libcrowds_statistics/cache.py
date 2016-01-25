@@ -55,45 +55,45 @@ def n_tasks_completed():
     return n_tasks_completed or 0
 
 
-@cache(timeout=ONE_HOUR, key_prefix="site_top5_projects_1_week")
-def get_top5_projects_1_week():
-    """Return the 5 most active projects in the last week."""
+@cache(timeout=ONE_HOUR, key_prefix="site_top_n_projects_k_days")
+def get_top_n_projects_k_days(n, k):
+    """Return the n most active projects within the last k days."""
     sql = text('''SELECT project.name, project.short_name,
                COUNT(task_run.project_id) AS task_runs
                FROM project, task_run, category
                WHERE project.id=task_run.project_id
                AND project.category_id = category.id
                AND project.published
-               AND NOT category.name = 'Staff'
-               AND DATE(task_run.finish_time) > NOW() - INTERVAL '1 week'
+               AND DATE(task_run.finish_time) > NOW() - INTERVAL :interval
                GROUP BY project.id
-               ORDER BY task_runs DESC LIMIT 5;''')
-    results = session.execute(sql)
-    top5_projects_1_week = []
+               ORDER BY task_runs DESC LIMIT :n;''')
+    results = session.execute(sql, dict(n=n, interval='{} days'.format(k + 1)))
+    projects = []
     for row in results:
-        tmp = dict(name=row.name, short_name=row.short_name[:10],
+        tmp = dict(name=row.name, short_name=row.short_name,
                    task_runs=row.task_runs)
-        top5_projects_1_week.append(tmp)
-    return top5_projects_1_week
+        projects.append(tmp)
+    print projects
+    return projects
 
 
-@cache(timeout=ONE_HOUR, key_prefix="site_top5_users_1_week")
-def get_top5_users_1_week():
-    """Return the 5 most active users in the last week"""
+@cache(timeout=ONE_HOUR, key_prefix="site_top_n_users_k_days")
+def get_top_n_users_k_days(n, k):
+    """Return the n most active users within the last k days."""
     sql = text('''SELECT "user".fullname, "user".name,
                COUNT(task_run) AS task_runs FROM "user", task_run
                WHERE "user".id=task_run.user_id
-               AND DATE(task_run.finish_time) > NOW() - INTERVAL '1 week'
+               AND DATE(task_run.finish_time) > NOW() - INTERVAL :interval
                AND DATE(task_run.finish_time) <= NOW()
                GROUP BY "user".id
-               ORDER BY task_runs DESC LIMIT 5;''')
-    results = session.execute(sql)
-    top5_users_1_week = []
+               ORDER BY task_runs DESC LIMIT :n;''')
+    results = session.execute(sql, dict(n=n, interval='{} days'.format(k + 1)))
+    users = []
     for row in results:
         user = dict(fullname=row.fullname, name=row.name,
                     task_runs=row.task_runs)
-        top5_users_1_week.append(user)
-    return top5_users_1_week
+        users.append(user)
+    return users
 
 
 @cache(timeout=ONE_HOUR, key_prefix="site_all_locations")

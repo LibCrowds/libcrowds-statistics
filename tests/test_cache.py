@@ -30,14 +30,14 @@ class TestCacheWithoutData(Test):
         assert n == 0
 
 
-    def test_get_top5_projects_1_week_returns_empty_list_when_no_data(self):
-        l = cache.get_top5_projects_1_week()
+    def test_get_top_n_projects_k_days_returns_empty_list_when_no_data(self):
+        l = cache.get_top_n_projects_k_days(1, 10)
 
         assert l == []
 
 
-    def test_get_top5_users_1_week_returns_empty_list_when_no_data(self):
-        l = cache.get_top5_users_1_week()
+    def test_get_top_n_users_k_days_returns_empty_list_when_no_data(self):
+        l = cache.get_top_n_users_k_days(1, 10)
 
         assert l == []
 
@@ -178,16 +178,28 @@ class TestCacheWithData(Test):
         assert n == 1
 
 
-    def test_top5_projects_1_week_returned(self):
-        l = cache.get_top5_projects_1_week()
+    def test_top_n_projects_returned_when_within_k_days(self):
+        l = cache.get_top_n_projects_k_days(1, 6)
 
         assert l[0]['name'] == self.pr.name
 
 
-    def test_top5_users_1_week_returned(self):
-        l = cache.get_top5_users_1_week()
+    def test_top_n_projects_empty_when_none_within_k_days(self):
+        l = cache.get_top_n_projects_k_days(1, 5)
+
+        assert l == []
+
+
+    def test_top_n_users_returned_when_within_k_days(self):
+        l = cache.get_top_n_users_k_days(1, 6)
 
         assert l[0]['fullname'] == self.user.fullname
+
+
+    def test_top_n_users_empty_when_none_within_k_days(self):
+        l = cache.get_top_n_users_k_days(1, 5)
+
+        assert l == []
 
 
     @with_context

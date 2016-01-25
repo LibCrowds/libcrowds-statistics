@@ -79,7 +79,7 @@ class TestCacheWithoutData(Test):
     def test_get_task_runs_daily_returns_empty_dataset_when_no_data(self):
         d = cache.get_task_runs_daily()
 
-        assert d == {'days': [], 'tasks': []}
+        assert d == {'days': [], 'task_runs': []}
 
 
     def test_get_users_daily_returns_empty_dataset_when_no_data(self):
@@ -300,7 +300,7 @@ class TestCacheWithData(Test):
     def test_task_runs_daily_returns_correct_number_of_tasks(self):
         d = cache.get_task_runs_daily()
 
-        assert d['tasks'] == [1, 1]
+        assert d['task_runs'] == [1, 1]
 
 
     def test_users_daily_returns_correct_dates(self):

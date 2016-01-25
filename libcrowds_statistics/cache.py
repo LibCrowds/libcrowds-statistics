@@ -236,20 +236,20 @@ def get_top_n_countries(n=None):
 @cache(timeout=ONE_HOUR, key_prefix="site_task_runs_daily")
 def get_task_runs_daily():
     """Return a count of task runs each day for the last 14 days."""
-    tasks = []
+    task_runs = []
     days = []
     sql = text('''SELECT date_trunc('day', to_timestamp(task_run.finish_time,
                'YYYY-MM-DD'))
-               AS "day" , count(task_run.id) AS "tasks"
+               AS "day" , count(task_run.id) AS "task_runs"
                FROM task_run WHERE DATE(task_run.finish_time)
                > NOW() - INTERVAL '15 days'
                AND DATE(task_run.finish_time) < NOW() - INTERVAL '1 day'
                GROUP BY "day" ORDER BY "day";''')
     results = session.execute(sql)
     for row in results:
-        tasks.append(row.tasks)
+        task_runs.append(row.task_runs)
         days.append(_date_handler(row.day))
-    return dict(days=days, tasks=tasks)
+    return dict(days=days, task_runs=task_runs)
 
 
 @cache(timeout=ONE_HOUR, key_prefix="site_users_daily")

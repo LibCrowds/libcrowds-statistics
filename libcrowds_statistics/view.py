@@ -40,7 +40,7 @@ def index():
     top5_projects_1_week = extra_stats.get_top5_projects_1_week()
 
     # Location stats
-    locs = site_stats.get_locs()
+    locs = extra_stats.get_locations()
     n_continents = extra_stats.n_continents()
     n_cities = extra_stats.n_cities()
     n_countries = extra_stats.n_countries()

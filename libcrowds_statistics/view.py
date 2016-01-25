@@ -44,7 +44,7 @@ def index():
     n_continents = extra_stats.n_continents()
     n_cities = extra_stats.n_cities()
     n_countries = extra_stats.n_countries()
-    top_countries = extra_stats.get_top_countries()
+    top_countries = extra_stats.get_top_n_countries()
 
     stats = dict(n_auth=n_auth,
                  n_anon=n_anon,

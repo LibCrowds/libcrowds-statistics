@@ -20,7 +20,7 @@ def index():
     n_auth = site_stats.n_auth_users()
     top5_users_24_hours = site_stats.get_top5_users_24_hours()
     top5_users_1_week = extra_stats.get_top5_users_1_week()
-    top_10_percent = extra_stats.get_top_n_percent(10)
+    n_completed_by_top_10_percent = extra_stats.get_top_n_percent(10)
     users_daily = extra_stats.get_users_daily()
     leaderboard = cached_users.get_leaderboard(10)
     n_avg_days_active = extra_stats.n_avg_days_active()
@@ -46,36 +46,29 @@ def index():
     n_countries = extra_stats.n_countries()
     top_countries = extra_stats.get_top_countries()
 
-    users = dict(n_anon=n_anon,
-                 n_auth=n_auth,
-                 top5_users_24_hours=top5_users_24_hours,
-                 top5_users_1_week=top5_users_1_week,
-                 top_10_percent=top_10_percent,
-                 users_daily=users_daily,
-                 leaderboard=leaderboard,
-                 n_avg_days_active=n_avg_days_active)
-
-    tasks = dict(n_tasks=n_tasks,
+    stats = dict(n_auth=n_auth,
+                 n_anon=n_anon,
+                 n_published_projects=n_published_projects,
+                 n_tasks=n_tasks,
                  n_task_runs=n_task_runs,
                  n_auth_task_runs=n_auth_task_runs,
                  n_tasks_completed=n_tasks_completed,
-                 task_runs_daily=task_runs_daily,
-                 dow=dow,
-                 hourly_activity=hourly_activity)
-
-    projects = dict(n_published_projects=n_published_projects,
-                    top5_projects_24_hours=top5_projects_24_hours,
-                    top5_projects_1_week=top5_projects_1_week)
-
-    locations = dict(locs=locs,
-                     n_countries=n_countries,
-                     n_cities=n_cities,
-                     n_continents=n_continents,
-                     top_countries=top_countries)
+                 n_countries=n_countries,
+                 n_cities=n_cities,
+                 n_continents=n_continents,
+                 n_avg_days_active=n_avg_days_active,
+                 n_completed_by_top_10_percent=n_completed_by_top_10_percent)
 
     return render_template('/stats.html', title=title,
                            description=description,
-                           users=json.dumps(users),
-                           tasks=json.dumps(tasks),
-                           projects=json.dumps(projects),
-                           locations=json.dumps(locations))
+                           stats=json.dumps(stats),
+                           locs=json.dumps(locs),
+                           users_daily=json.dumps(users_daily),
+                           task_runs_daily=json.dumps(task_runs_daily),
+                           top_countries=json.dumps(top_countries),
+                           top5_projects_1_week=top5_projects_1_week,
+                           top5_projects_24_hours=top5_projects_24_hours,
+                           top5_users_24_hours=top5_users_24_hours,
+                           hourly_activity=json.dumps(hourly_activity),
+                           dow=json.dumps(dow),
+                           leaderboard=leaderboard)

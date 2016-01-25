@@ -16,7 +16,7 @@ def index():
                   LibCrowds crowdsourcing platform."""
 
     # User stats
-    n_anon = site_stats.n_anon_users()
+    n_anon = extra_stats.n_anon_users()
     n_auth = site_stats.n_auth_users()
     top5_users_24_hours = site_stats.get_top5_users_24_hours()
     top5_users_1_week = extra_stats.get_top5_users_1_week()

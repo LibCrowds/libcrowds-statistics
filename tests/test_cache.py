@@ -12,6 +12,12 @@ from libcrowds_statistics import cache
 class TestCacheWithoutData(Test):
 
 
+    def test_n_anon_users_returns_zero_when_no_data(self):
+        n = cache.n_anon_users()
+
+        assert n == 0
+
+
     def test_n_auth_task_runs_site_returns_zero_when_no_data(self):
         n = cache.n_auth_task_runs_site()
 
@@ -152,6 +158,12 @@ class TestCacheWithData(Test):
 
         AnonymousTaskRunFactory.create(info={'ip_address': '1.1.1.1'})
         TaskRunFactory.create(info={'ip_address': '2.2.2.2'})
+
+
+    def test_n_anon_users_returned(self):
+        n = cache.n_anon_users()
+
+        assert n == 1
 
 
     def test_n_auth_task_runs_returned(self):

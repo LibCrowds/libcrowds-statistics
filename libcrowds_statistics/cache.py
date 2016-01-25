@@ -13,6 +13,26 @@ from pybossa.cache import cache, memoize, ONE_HOUR
 session = db.slave_session
 
 
+@cache(timeout=ONE_HOUR, key_prefix="site_n_all_anon_users")
+def n_anon_users():
+    """Return number of anonymous users."""
+    sql = text('''SELECT COUNT(ip_address) AS n_anon FROM (SELECT CASE
+               WHEN (info->>'ip_address') IS NULL then null
+               ELSE (info->>'ip_address')
+               END AS ip_address
+               FROM task_run
+               WHERE user_id IS NULL
+               UNION SELECT user_ip AS ip_address
+               FROM task_run
+               WHERE user_id IS NULL
+               GROUP BY ip_address
+               ORDER BY ip_address) AS all_ips;''')
+    results = session.execute(sql)
+    for row in results:
+        n_anon = row.n_anon
+    return n_anon or 0
+
+
 @cache(timeout=ONE_HOUR, key_prefix="site_n_auth_task_runs")
 def n_auth_task_runs_site():
     """Return the number of task runs."""

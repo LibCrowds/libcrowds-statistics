@@ -14,6 +14,5 @@ def setUpPackage():
     """Setup the plugin."""
     from default import flask_app
     with flask_app.app_context():
-        flask_app.config['STATISTICS_RECORD_ALL_IPS'] = False
         plugin_dir = os.path.dirname(plugin.__file__)
         plugin.LibCrowdsStatistics(plugin_dir).setup()

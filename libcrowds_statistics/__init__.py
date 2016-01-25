@@ -20,6 +20,7 @@ class LibCrowdsStatistics(Plugin):
     def setup(self):
         """Setup plugin."""
         self.setup_blueprint()
+        from . import event_listeners
 
 
     def setup_blueprint(self):

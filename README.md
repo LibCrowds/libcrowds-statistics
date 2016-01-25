@@ -13,9 +13,22 @@ It's also a nice excuse to generate pretty charts.
 
 ## Installation
 
-Copy the [libcrowds_statistics](libcrowds_statistics) folder into your PyBossa 
-[plugins](https://github.com/PyBossa/pybossa/tree/master/pybossa/plugins) directory. The 
-plugin will be available after you next restart the server. 
+Copy the [libcrowds_statistics](libcrowds_statistics) folder into your PyBossa
+[plugins](https://github.com/PyBossa/pybossa/tree/master/pybossa/plugins) directory. The
+plugin will be available after you next restart the server.
+
+
+## Configuration
+
+The default configuration settings for the plugin are:
+
+``` Python
+# Record user IP addresses for all task runs.
+STATISTICS_RECORD_ALL_IPS = True
+```
+
+You can modify these settings by adding them to your main PyBossa configuration
+file.
 
 
 ## Integration
@@ -33,5 +46,5 @@ up a test environment and run the tests.
 
 ## Contributing
 
-See the [CONTRIBUTING](CONTRIBUTING.md) file for guidelines on how to suggest improvements, 
+See the [CONTRIBUTING](CONTRIBUTING.md) file for guidelines on how to suggest improvements,
 report bugs or submit pull requests.

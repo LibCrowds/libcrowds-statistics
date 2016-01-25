@@ -17,8 +17,7 @@ class TestEventListener(Test):
         mock_info = MagicMock()
         mock_target = MagicMock()
         mock_target.info = mock_info
-        mock_conn = MagicMock()
-        event_listeners.add_task_run_event(None, mock_conn, mock_target)
+        event_listeners.record_ip(mock_target)
 
         assert mock_info.__setitem__.called_with('ip_address', mock_ip)
 

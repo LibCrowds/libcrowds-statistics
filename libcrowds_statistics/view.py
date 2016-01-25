@@ -71,4 +71,4 @@ def index():
                            top5_users_24_hours=top5_users_24_hours,
                            hourly_activity=json.dumps(hourly_activity),
                            dow=json.dumps(dow),
-                           leaderboard=leaderboard)
+                           leaderboard=json.dumps(leaderboard))

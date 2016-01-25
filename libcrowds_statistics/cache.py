@@ -76,21 +76,53 @@ def get_top5_users_1_week():
     return top5_users_1_week
 
 
+@cache(timeout=ONE_HOUR, key_prefix="site_all_locations")
+def get_locations():
+    """Return locations (latitude, longitude) for all users."""
+    locs = []
+    if current_app.config['GEO']:
+        sql = text('''SELECT CASE
+                   WHEN (info->>'ip_address') IS NULL then null
+                   ELSE (info->>'ip_address')
+                   END AS "ip_address"
+                   FROM task_run
+                   GROUP BY ip_address;''')
+        results = session.execute(sql)
+        geolite = current_app.root_path + '/../dat/GeoLiteCity.dat'
+        gic = pygeoip.GeoIP(geolite)
+
+        for row in results:
+            if _verify_ip(row.ip_address):
+                loc = gic.record_by_addr(row.ip_address)
+                if loc is None:
+                    loc = {}
+                if (len(loc.keys()) == 0):
+                    loc['latitude'] = 0
+                    loc['longitude'] = 0
+                locs.append(dict(loc=loc))
+    return locs
+
+
 @cache(timeout=ONE_HOUR, key_prefix="site_n_countries")
 def n_countries():
     """Get the number of active cities."""
     countries = set()
     if current_app.config['GEO']:
-        sql = text('''SELECT DISTINCT(user_ip) AS ip_address
+        sql = text('''SELECT CASE
+                   WHEN (info->>'ip_address') IS NULL then null
+                   ELSE (info->>'ip_address')
+                   END AS "ip_address"
                    FROM task_run
-                   GROUP BY ip_address''')
+                   GROUP BY ip_address;''')
         results = session.execute(sql)
-
         geolite = current_app.root_path + '/../dat/GeoLiteCity.dat'
         gic = pygeoip.GeoIP(geolite)
+
         for row in results:
-            loc = gic.record_by_addr(row.ip_address)
-            countries.add(loc['country_name'])
+            if _verify_ip(row.ip_address):
+                loc = gic.record_by_addr(row.ip_address)
+                if loc:
+                    countries.add(loc['country_name'])
 
     return len(countries)
 
@@ -100,17 +132,21 @@ def n_cities():
     """Get the number of active cities."""
     cities = set()
     if current_app.config['GEO']:
-        sql = text('''SELECT DISTINCT(user_ip) AS ip_address
+        sql = text('''SELECT CASE
+                   WHEN (info->>'ip_address') IS NULL then null
+                   ELSE (info->>'ip_address')
+                   END AS "ip_address"
                    FROM task_run
-                   GROUP BY ip_address''')
+                   GROUP BY ip_address;''')
         results = session.execute(sql)
-
         geolite = current_app.root_path + '/../dat/GeoLiteCity.dat'
         gic = pygeoip.GeoIP(geolite)
 
         for row in results:
-            loc = gic.record_by_addr(row.ip_address)
-            cities.add(loc['city'])
+            if _verify_ip(row.ip_address):
+                loc = gic.record_by_addr(row.ip_address)
+                if loc:
+                    cities.add(loc['city'])
 
     return len(cities)
 
@@ -120,49 +156,57 @@ def n_continents():
     """Get the number of active continents."""
     continents = set()
     if current_app.config['GEO']:
-        sql = text('''SELECT DISTINCT(user_ip) AS ip_address
-                   FROM task_run
-                   GROUP BY ip_address''')
+        sql = text('''SELECT CASE
+                   WHEN (info->>'ip_address') IS NULL then null
+                   ELSE (info->>'ip_address')
+                   END AS "ip_address"
+                   FROM task_run;''')
         results = session.execute(sql)
-
         geolite = current_app.root_path + '/../dat/GeoLiteCity.dat'
         gic = pygeoip.GeoIP(geolite)
 
         for row in results:
-            loc = gic.record_by_addr(row.ip_address)
-            continents.add(loc['continent'])
+            if _verify_ip(row.ip_address):
+                loc = gic.record_by_addr(row.ip_address)
+                if loc:
+                    continents.add(loc['continent'])
 
     return len(continents)
 
 
 @cache(timeout=ONE_HOUR, key_prefix="site_top_countries")
-def get_top_countries(count=None):
-    """Get the five most active countries."""
+def get_top_n_countries(n=None):
+    """Get the top n most active countries."""
     countries = []
     n_task_runs = []
     if current_app.config['GEO']:
-        sql = text('''SELECT DISTINCT(user_ip) AS ip_address,
+        sql = text('''SELECT CASE
+                   WHEN (info->>'ip_address') IS NULL then null
+                   ELSE (info->>'ip_address')
+                   END AS "ip_address",
                    COUNT(id) AS n_task_runs
                    FROM task_run
                    GROUP BY ip_address
                    ORDER BY n_task_runs DESC;''')
         results = session.execute(sql)
-
         geolite = current_app.root_path + '/../dat/GeoLiteCity.dat'
         gic = pygeoip.GeoIP(geolite)
-
         all_countries = defaultdict(int)
+
         for row in results:
-            loc = gic.record_by_addr(row.ip_address)
-            country = loc['country_name']
-            if country:
-                all_countries[country] += row.n_task_runs
+            if _verify_ip(row.ip_address):
+                loc = gic.record_by_addr(row.ip_address)
+                country = loc['country_name']
+                if country:
+                    all_countries[country] += row.n_task_runs
+                else:
+                    all_countries['Unknown'] += row.n_task_runs
 
+        # Sort by number of task runs
         sorted_countries = sorted(all_countries.items(),
-                                  key=operator.itemgetter(1),
-                                  reverse=True)
+                                  key=operator.itemgetter(1), reverse=True)
 
-        for country in sorted_countries[:count]:
+        for country in sorted_countries[:n]:
             countries.append(country[0])
             n_task_runs.append(country[1])
 
@@ -184,7 +228,7 @@ def get_task_runs_daily():
     results = session.execute(sql)
     for row in results:
         tasks.append(row.tasks)
-        days.append(date_handler(row.day))
+        days.append(_date_handler(row.day))
     return dict(days=days, tasks=tasks)
 
 
@@ -213,7 +257,7 @@ def get_users_daily():
 
     for row in results:
         users.append(row.users)
-        days.append(date_handler(row.day))
+        days.append(_date_handler(row.day))
     return dict(days=days, users=users)
 
 
@@ -264,7 +308,7 @@ def site_hourly_activity():
     results = session.execute(sql)
     for row in results:
         hours[row.hour] = row.percentage
-    return format_hours(hours)
+    return _format_hours(hours)
 
 
 @memoize(timeout=ONE_HOUR)
@@ -301,12 +345,21 @@ def n_avg_days_active():
     return int(n_days) if n_days else 0
 
 
-def date_handler(obj):
+def _verify_ip(ip):
+    """Return True if ip matches a valid IP pattern, False otherwise."""
+    if not ip:
+        return False
+
+    ip_pattern = re.compile('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
+    return ip_pattern.match(ip) is not None
+
+
+def _date_handler(obj):
     """Convert date objects to JSON serializable format."""
     return obj.isoformat() if hasattr(obj, 'isoformat') else obj
 
 
-def format_hours(hours):
+def _format_hours(hours):
     """Format hours."""
     hourNewStats = []
     for h in sorted(hours.keys()):

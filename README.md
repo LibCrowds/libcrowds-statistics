@@ -24,6 +24,8 @@ The default configuration settings for the plugin are:
 
 ``` Python
 # Record user IP addresses for all task runs.
+# WARNING: This setting is mainly here for testing purposes. If set to False
+# location data will no longer be available for all users.
 STATISTICS_RECORD_ALL_IPS = True
 ```
 
@@ -33,8 +35,8 @@ file.
 
 ## Integration
 
-If using the [libcrowds-pybossa-theme](https://github.com/LibCrowds/libcrowds-pybossa-theme)
-a link to the statistics page will appear on the main navigation bar after installation.
+If using the [libcrowds-pybossa-theme](https://github.com/LibCrowds/libcrowds-pybossa-theme) the
+**Statistcs** link on the main navigation bar will point to the page defined in this plugin.
 
 
 ## Testing

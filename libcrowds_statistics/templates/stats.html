@@ -113,10 +113,10 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="stats-row">
 
             <div id="proportion-auth-users" class="col-sm-4 col-xs-12 padding-bottom-sm">
-                <div class="white-panel inset-shadow-white same-size">
+                <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Proportion of Authenticated Users</h4>
                     <div class="canvas-container">
                         <canvas></canvas>
@@ -126,7 +126,7 @@
             </div>
 
             <div id="dow" class="col-sm-4 col-xs-12 padding-bottom-sm">
-                <div class="white-panel inset-shadow-white same-size">
+                <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Contributions per Day of the Week</h4>
                     <div class="canvas-container">
                         <canvas></canvas>
@@ -135,7 +135,7 @@
             </div>
 
             <div id="top-10-percent" class="col-sm-4 col-xs-12 padding-bottom-sm">
-                <div class="white-panel inset-shadow-white same-size">
+                <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Most Active 10% of Volunteers</h4>
                     <div class="canvas-container">
                         <canvas></canvas>
@@ -195,5 +195,8 @@ $(function(){
     $('#loading').slideUp();
     $('#stats').slideDown();
 });
+
+$(window).on("load resize", function() {
+    resizeStatsRow();});
 </script>
 {% endblock %}

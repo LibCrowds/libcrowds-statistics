@@ -129,7 +129,7 @@ function drawBarChart(canvas, container, data) {
     // Set size each time chart is redrawn
     canvas.attr("width", container.width());
     canvas.attr("height", 300);
-    
+
     var chart = new Chart(ctx).Bar(data);
     chart.draw();
     return chart;
@@ -190,6 +190,19 @@ function pluralise(n, noun, suffix){
         return n + ' ' + noun.substring(0, noun.length - 1) + suffix;
     }
     return n + ' ' + noun + suffix;
+}
+
+
+/** Sets all chart containers in a stats-row to the same height. */
+function resizeStatsRow() {
+    if($(window).width() > 991){
+        var m2 = 0;
+        $(".stats-row").children().children().height("");
+        $(".stats-row").children().children().each(function(i, el) {
+	m2 = Math.max(m2, $(el).height());
+    });
+    $(".stats-row").children().children().height(m2);
+    }
 }
 
 

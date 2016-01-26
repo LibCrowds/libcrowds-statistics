@@ -26,7 +26,7 @@ The plugin makes a new global statistics page available at:
 /statistics
 ```
 
-In order to generate location based statistics for all users this plugin registers an
+In order to generate location based statistics for all users this plugin also registers an
 event listener to record IP addresses for all new task runs (the PyBossa default
 is to record IP addresses for anonymous users only). All other statistics are
 generated from the standard PyBossa data.
@@ -35,7 +35,7 @@ generated from the standard PyBossa data.
 ## Integration
 
 If using the [libcrowds-pybossa-theme](https://github.com/LibCrowds/libcrowds-pybossa-theme) the
-**Statistcs** link on the main navigation bar will point to the page defined in this plugin.
+**Statistics** link on the main navigation bar will point to the page defined in this plugin.
 
 
 ## Testing

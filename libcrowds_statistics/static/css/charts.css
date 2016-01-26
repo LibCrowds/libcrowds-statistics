@@ -1,0 +1,29 @@
+.legend-container {
+    width: 100%;
+    margin:0;
+    padding:0;
+    font-size:14px;
+    margin-top:20px
+}
+
+.legend-container ul {
+    list-style:none;
+}
+
+.legend-container li {
+    margin-bottom:4px;
+}
+
+.legend-container li:first-letter {
+    text-transform:capitalize;
+}
+
+.legend-container li span {
+    display:block;
+    width:14px;
+    height:14px;
+    border-radius:7px;
+    float:left;
+    margin-top:4px;
+    margin-right:8px
+}

@@ -19,7 +19,7 @@ def index():
     n_anon = extra_stats.n_anon_users()
     n_auth = site_stats.n_auth_users()
     top_5_users_1_week = extra_stats.get_top_n_users_k_days(5, 7)
-    n_completed_by_top_10_percent = extra_stats.get_top_n_percent(10)
+    n_tr_top_10_percent = extra_stats.get_top_n_percent(10)
     users_daily = extra_stats.get_users_daily()
     leaderboard = cached_users.get_leaderboard(10)
     n_avg_days_active = extra_stats.n_avg_days_active()
@@ -55,7 +55,7 @@ def index():
                  n_cities=n_cities,
                  n_continents=n_continents,
                  n_avg_days_active=n_avg_days_active,
-                 n_completed_by_top_10_percent=n_completed_by_top_10_percent)
+                 n_tr_top_10_percent=n_tr_top_10_percent)
 
     return render_template('/stats.html', title=title,
                            description=description,

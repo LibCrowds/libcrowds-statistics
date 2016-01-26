@@ -35,7 +35,7 @@ def n_anon_users():
 
 @cache(timeout=ONE_HOUR, key_prefix="site_n_auth_task_runs")
 def n_auth_task_runs_site():
-    """Return the number of task runs."""
+    """Return the number of task runs created by authenticated users."""
     sql = text('''SELECT COUNT(task_run.id) AS n_task_runs FROM task_run
                WHERE user_id IS NOT NULL''')
     results = session.execute(sql)
@@ -57,7 +57,11 @@ def n_tasks_completed():
 
 @cache(timeout=ONE_HOUR, key_prefix="site_top_n_projects_k_days")
 def get_top_n_projects_k_days(n, k):
-    """Return the n most active projects within the last k days."""
+    """Return the n most active projects within the last k days.
+
+    :param n: The number of projects.
+    :param k: The number of days.
+    """
     sql = text('''SELECT project.name, project.short_name,
                COUNT(task_run.project_id) AS task_runs
                FROM project, task_run, category
@@ -73,13 +77,16 @@ def get_top_n_projects_k_days(n, k):
         tmp = dict(name=row.name, short_name=row.short_name,
                    task_runs=row.task_runs)
         projects.append(tmp)
-    print projects
     return projects
 
 
 @cache(timeout=ONE_HOUR, key_prefix="site_top_n_users_k_days")
 def get_top_n_users_k_days(n, k):
-    """Return the n most active users within the last k days."""
+    """Return the n most active users within the last k days.
+
+    :param n: The number of users.
+    :param k: The number of days.
+    """
     sql = text('''SELECT "user".fullname, "user".name,
                COUNT(task_run) AS task_runs FROM "user", task_run
                WHERE "user".id=task_run.user_id
@@ -125,7 +132,7 @@ def get_locations():
 
 @cache(timeout=ONE_HOUR, key_prefix="site_n_countries")
 def n_countries():
-    """Get the number of active cities."""
+    """Get the number of active countries."""
     countries = set()
     if current_app.config['GEO']:
         sql = text('''SELECT CASE
@@ -196,7 +203,10 @@ def n_continents():
 
 @cache(timeout=ONE_HOUR, key_prefix="site_top_countries")
 def get_top_n_countries(n=None):
-    """Get the top n most active countries."""
+    """Get the top n most active countries.
+
+    :param n: The number of countries.
+    """
     countries = []
     n_task_runs = []
     if current_app.config['GEO']:
@@ -235,7 +245,7 @@ def get_top_n_countries(n=None):
 
 @cache(timeout=ONE_HOUR, key_prefix="site_task_runs_daily")
 def get_task_runs_daily():
-    """Return a count of task runs each day for the last 14 days."""
+    """Return a count of task runs created each day, for the last 14 days."""
     task_runs = []
     days = []
     sql = text('''SELECT date_trunc('day', to_timestamp(task_run.finish_time,
@@ -254,7 +264,7 @@ def get_task_runs_daily():
 
 @cache(timeout=ONE_HOUR, key_prefix="site_users_daily")
 def get_users_daily():
-    """Return a count of users each day for the last 14 days."""
+    """Return a count of active users each day, for the last 14 days."""
     users = []
     days = []
     sql = text('''SELECT day, count(*) AS "users" FROM (
@@ -283,7 +293,7 @@ def get_users_daily():
 
 @cache(timeout=ONE_HOUR, key_prefix="site_dow")
 def get_dow():
-    """Return average number of tasks completed each day of the week."""
+    """Return average number of task runs created each day of the week."""
     days = []
     day_ints = []
     percentages = []
@@ -306,7 +316,7 @@ def get_dow():
 
 @cache(timeout=ONE_HOUR, key_prefix="site_hourly_activity")
 def site_hourly_activity():
-    """Return hourly activity statistics."""
+    """Return the number of task runs created per hour of the day."""
     hours = {}
     # initialize keys
     for i in range(0, 24):
@@ -331,9 +341,12 @@ def site_hourly_activity():
     return _format_hours(hours)
 
 
-@memoize(timeout=ONE_HOUR)
-def get_top_n_percent(percentage):
-    """Return the top n percent of volunteers."""
+@cache(timeout=ONE_HOUR, key_prefix="site_top_n_percent")
+def get_top_n_percent(n):
+    """Return the number of tasks runs produced by the top n percent of users.
+
+    :param n: The percentage of users.
+    """
     sql = text('''SELECT SUM(task_runs)
                FROM (SELECT COUNT(task_run) AS task_runs
                FROM task_run
@@ -341,9 +354,9 @@ def get_top_n_percent(percentage):
                GROUP BY user_id
                ORDER BY task_runs
                DESC LIMIT (
-               SELECT (count(*) * :percentage / 100) AS id FROM "user"
+               SELECT (count(*) * :n / 100) AS id FROM "user"
                )) AS n_task_runs;''')
-    results = session.execute(sql, dict(percentage=percentage))
+    results = session.execute(sql, dict(n=n))
     for row in results:
         n_task_runs = row.sum
     return int(n_task_runs) if n_task_runs else 0

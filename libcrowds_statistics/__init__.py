@@ -12,14 +12,14 @@ from flask.ext.plugins import Plugin
 import default_settings
 
 __plugin__ = "LibCrowdsStatistics"
-__version__ = "0.0.1"
+__version__ = "0.1.0"
 
 
 class LibCrowdsStatistics(Plugin):
     """Libcrowds statistics plugin class."""
 
     def setup(self):
-        """Setup plugin."""
+        """Setup the plugin."""
         self.load_config()
         self.setup_blueprint()
         from . import event_listeners

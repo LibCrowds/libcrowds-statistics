@@ -8,14 +8,10 @@ from .view import index
 class StatisticsBlueprint(Blueprint):
     """Blueprint to support additional views.
 
-    Parameters
-    ----------
-    **kwargs
-        Arbitrary keyword arguments.
+    :param ``**kwargs``: Arbitrary keyword arguments.
     """
 
     def __init__(self, **kwargs):
-        """Initialise blueprint instance."""
         defaults = {'name': 'statistics', 'import_name': __name__}
         defaults.update(kwargs)
 

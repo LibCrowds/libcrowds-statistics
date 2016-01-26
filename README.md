@@ -18,6 +18,20 @@ Copy the [libcrowds_statistics](libcrowds_statistics) folder into your PyBossa
 plugin will be available after you next restart the server.
 
 
+## Usage
+
+The plugin makes a new global statistics page available at:
+
+``` HTTP
+/statistics
+```
+
+In order to generate location based statistics for all users this plugin registers an
+event listener to record IP addresses for all new task runs (the PyBossa default
+is to record IP addresses for anonymous users only). All other statistics are
+generated from the standard PyBossa data.
+
+
 ## Integration
 
 If using the [libcrowds-pybossa-theme](https://github.com/LibCrowds/libcrowds-pybossa-theme) the

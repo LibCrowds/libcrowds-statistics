@@ -9,7 +9,6 @@ Global statistics page for LibCrowds.
 import os
 from flask import current_app as app
 from flask.ext.plugins import Plugin
-from . import event_listeners
 import default_settings
 
 __plugin__ = "LibCrowdsStatistics"
@@ -23,6 +22,7 @@ class LibCrowdsStatistics(Plugin):
         """Setup plugin."""
         self.load_config()
         self.setup_blueprint()
+        from . import event_listeners
 
 
     def load_config(self):
@@ -46,9 +46,3 @@ class LibCrowdsStatistics(Plugin):
         blueprint = StatisticsBlueprint(template_folder=template_folder,
                                         static_folder=static_folder)
         app.register_blueprint(blueprint, url_prefix="/statistics")
-
-
-    def setup_event_listeners(self):
-        """Setup event listeners."""
-        if app.config['STATISTICS_RECORD_ALL_IPS']:
-            event_listeners.register_record_ip_event()

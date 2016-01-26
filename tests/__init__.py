@@ -3,11 +3,12 @@
 import sys
 import os
 import libcrowds_statistics as plugin
+from pybossa.model.task_run import TaskRun
+from sqlalchemy import event
+from libcrowds_statistics import event_listeners
 
 # Use the PyBossa test suite
 sys.path.append(os.path.abspath("./pybossa/test"))
-
-os.environ['STATISTICS_SETTINGS'] = '../settings_test.py'
 
 
 def setUpPackage():
@@ -16,3 +17,7 @@ def setUpPackage():
     with flask_app.app_context():
         plugin_dir = os.path.dirname(plugin.__file__)
         plugin.LibCrowdsStatistics(plugin_dir).setup()
+
+        # Remove event listeners
+        func = event_listeners.record_new_task_run_ip_event
+        event.remove(TaskRun, 'before_insert', func)

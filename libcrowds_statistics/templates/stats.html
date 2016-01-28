@@ -165,9 +165,6 @@
 <script src="{{url_for('statistics.static', filename='js/charts.js')}}"></script>
 <script>
 $(function(){
-    // Set background
-    $('body').addClass('pattern-white-wall');
-
     var stats = {{ stats|safe }};
     var locs = {{ locs|safe }};
     var leaderboard = {{ leaderboard|safe }};
@@ -200,5 +197,9 @@ $(window).on("load resize", function() {
     resizeStatsRow();});
 </script>
 {% endif %}
-
+<script>
+    $(function(){
+        $('body').addClass('pattern-white-wall');
+    });
+</script>
 {% endblock %}

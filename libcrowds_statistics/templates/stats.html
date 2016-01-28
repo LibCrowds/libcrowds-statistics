@@ -12,7 +12,6 @@
 <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
 <![endif]-->
-<span class="set-body-bg" data-bg="pattern-white-wall"></span>
 {% include "_flash_messages.html" %}
 {% if not stats.n_tasks_completed or stats.n_tasks_completed == 0 %}
 <div class="container container-main">
@@ -167,6 +166,9 @@
 <script src="{{url_for('statistics.static', filename='js/charts.js')}}"></script>
 <script>
 $(function(){
+    // Set background
+    $('body').addClass('pattern-white-wall');
+
     var stats = {{ stats|safe }};
     var locs = {{ locs|safe }};
     var leaderboard = {{ leaderboard|safe }};

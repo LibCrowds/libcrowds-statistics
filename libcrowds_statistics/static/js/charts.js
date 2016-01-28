@@ -162,7 +162,6 @@ function drawDonutChart(canvas, container, data, legendContainer) {
     var opts = {tooltipTemplate: "<%=label%>", legendTemplate: legendTemplate};
     var chart = new Chart(ctx).Doughnut(data, opts);
     legend = chart.generateLegend();
-    console.log(legend);
     legendContainer.html(legend);
 }
 
@@ -183,13 +182,15 @@ function drawRadarChart(canvas, container, data) {
 /** Return n followed by noun, pluralised with suffix, if necessary. */
 function pluralise(n, noun, suffix){
     suffix = (typeof suffix === 'undefined') ? 's' : suffix;
-    if (n == 1) {
-        return noun;
-    }
+    var str = n + ' ';
     if (suffix == 'ies') {
-        return n + ' ' + noun.substring(0, noun.length - 1) + suffix;
+        return str + noun.substring(0, noun.length - 1) + suffix;
     }
-    return n + ' ' + noun + suffix;
+    str = str + noun;
+    if (n == 1) {
+        return str;
+    }
+    return str + suffix;
 }
 
 
@@ -208,11 +209,13 @@ function resizeStatsRow() {
 
 /** Populate the statistics summary. */
 function populateSummary(stats, id){
-    var volunteers = pluralise(stats.n_auth + stats.n_anon, 'volunteer');
+    var n_volunteers = stats.n_auth + stats.n_anon
+    var volunteers = pluralise(n_volunteers, 'volunteer');
     var projects = pluralise(stats.n_published_projects, 'project');
     var contributions = pluralise(stats.n_task_runs, 'contribution');
     var tasks = pluralise(stats.n_tasks_completed, 'task');
-    var summary = ''.concat(volunteers, ' have participated in ',
+    have = (n_volunteers === 1) ? ' has' : ' have';
+    var summary = ''.concat(volunteers, have, ' participated in ',
                             projects, ', made ',
                             contributions, ' and completed ',
                             tasks,
@@ -407,7 +410,6 @@ function populateProportionAuthChart(stats, id) {
                               Math.round(stats.n_anon/total*100),
                               "% (" + pluralise(stats.n_anon, " user"), ')');
     var data = getDonutDataset(authLabel, stats.n_auth, anonLabel, stats.n_anon);
-    console.log(data)
     drawDonutChart(canvas, con, data, lCon);
 }
 

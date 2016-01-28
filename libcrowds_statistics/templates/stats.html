@@ -12,15 +12,16 @@
 <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
 <![endif]-->
-<span class="set-main-bg" data-bg="pattern-white-wall"></span>
+<span class="set-body-bg" data-bg="pattern-white-wall"></span>
+{% include "_flash_messages.html" %}
+{% if not stats.n_tasks_completed or stats.n_tasks_completed == 0 %}
 <div class="container container-main">
-    {% include "_flash_messages.html" %}
-    {% if stats.n_tasks_completed == 0 %}
     <div class="white-panel inset-shadow-white">
-        <h3>Statistics will be available once some tasks have been completed!</h3>
+        <h3 class="text-center">Statistics will be available once some tasks have been completed!</h3>
     </div>
-    {% else %}
-
+</div>
+{% else %}
+<div class="container container-main">
     <div id="loading" class="col-xs-12 padding-bottom-sm">
         <div class="white-panel inset-shadow-white">
             <h3 class="text-center"><span class="fa fa-refresh fa-spin"></span> Loading Statistics</h3>
@@ -158,9 +159,7 @@
         </div>
 
     </div>
-    {% endif %}
 </div>
-
 <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
 <script src="{{url_for('statistics.static', filename='js/vendor/leaflet.markercluster.js')}}" type="text/javascript"></script>
 <script src="{{url_for('statistics.static', filename='js/vendor/moment.js')}}"></script>
@@ -199,4 +198,6 @@ $(function(){
 $(window).on("load resize", function() {
     resizeStatsRow();});
 </script>
+{% endif %}
+
 {% endblock %}

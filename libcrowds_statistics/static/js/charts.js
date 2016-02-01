@@ -196,7 +196,7 @@ function pluralise(n, noun, suffix){
 
 /** Sets all chart containers in a stats-row to the same height. */
 function resizeStatsRow() {
-    if($(window).width() > 991){
+    if($(window).width() > 991) {
         var m2 = 0;
         $(".stats-row").children().children().height("");
         $(".stats-row").children().children().each(function(i, el) {
@@ -208,7 +208,8 @@ function resizeStatsRow() {
 
 
 /** Populate the statistics summary. */
-function populateSummary(stats, id){
+function populateSummary(stats, id) {
+    $('#' + id).slideDown();
     var n_volunteers = stats.n_auth + stats.n_anon
     var volunteers = pluralise(n_volunteers, 'volunteer');
     var projects = pluralise(stats.n_published_projects, 'project');
@@ -225,7 +226,8 @@ function populateSummary(stats, id){
 
 
 /** Populate the locations summary. */
-function populateLocationsSummary(stats, id){
+function populateLocationsSummary(stats, id) {
+    $('#' + id).slideDown();
     var continents = pluralise(stats.n_continents, 'continent');
     var countries = pluralise(stats.n_countries, 'country', 'ies');
     var cities = pluralise(stats.n_cities, 'city', 'ies');
@@ -236,8 +238,9 @@ function populateLocationsSummary(stats, id){
 
 
 /** Populate the locations chart. */
-function populateLocationsChart(locs) {
-    if(locs.length > 0){
+function populateLocationsChart(locs, id) {
+    if(locs.length > 0) {
+        $('#' + id).slideDown();
         var map = L.map('map', {scrollWheelZoom: false, minZoom:1});
         map.fitWorld();
         map.setZoom(2);
@@ -275,7 +278,8 @@ function populateLeaderboardChart(leaderboard, id){
     con = $('#' + id).find(".canvas-container");
     canvas = $('#' + id).find("canvas");
 
-    if(leaderboard.length > 0){
+    if(leaderboard.length > 0) {
+        $('#' + id).slideDown();
         var users = [];
         var scores = [];
         for (i = 0; i < leaderboard.length; i++) {
@@ -302,7 +306,8 @@ function populateMostActiveCountriesChart(topCountries, id){
     canvas = $("#" + id).find("canvas");
     tbody = $("#" + id).find("tbody");
 
-    if(topCountries['countries'].length > 0){
+    if(topCountries['countries'].length > 0) {
+        $('#' + id).slideDown();
         var countries = topCountries['countries'];
         var taskRuns = topCountries['n_task_runs'];
 
@@ -329,11 +334,12 @@ function populateMostActiveCountriesChart(topCountries, id){
 
 
 /** Populate the contributions per day chart. */
-function populateDailyContributionsChart(taskRunsDaily, id){
+function populateDailyContributionsChart(taskRunsDaily, id) {
     con = $("#" + id).find(".canvas-container");
     canvas = $("#" + id).find("canvas");
 
-    if(taskRunsDaily['days'].length > 0){
+    if(taskRunsDaily['days'].length > 0) {
+        $('#' + id).slideDown();
         days = taskRunsDaily['days'];
         taskRuns = taskRunsDaily['task_runs'];
         var labels = [];
@@ -352,7 +358,8 @@ function populateDailyContributionsChart(taskRunsDaily, id){
 }
 
 /** Populate the users per day chart. */
-function populateUsersPerDayChart(usersDaily, id){
+function populateUsersPerDayChart(usersDaily, id) {
+    $('#' + id).slideDown();
     con = $("#" + id).find(".canvas-container");
     canvas = $("#" + id).find("canvas");
     days = usersDaily['days'];
@@ -375,7 +382,8 @@ function populateTopUsersThisWeekChart(top5Users1Week, id) {
     con = $("#" + id).find(".canvas-container");
     canvas = $("#" + id).find("canvas");
 
-    if(top5Users1Week.length > 0){
+    if(top5Users1Week.length > 0) {
+        $('#' + id).slideDown();
         var users = [];
         var taskRuns = [];
         for (i = 0; i < top5Users1Week.length; i++) {
@@ -398,6 +406,7 @@ function populateTopUsersThisWeekChart(top5Users1Week, id) {
 
 /** Populate the proportion authenticated chart. */
 function populateProportionAuthChart(stats, id) {
+    $('#' + id).slideDown();
     con = $("#" + id).find(".canvas-container");
     canvas = $("#" + id).find("canvas");
     lCon = $("#" + id).find(".legend-container");
@@ -416,6 +425,7 @@ function populateProportionAuthChart(stats, id) {
 
 /** Populate the contributions per day chart. */
 function populateDowChart(dow, id) {
+    $('#' + id).slideDown();
     con = $("#" + id).find(".canvas-container");
     canvas = $("#" + id).find("canvas");
 
@@ -431,6 +441,7 @@ function populateDowChart(dow, id) {
 
 /** Populate the top 10 percent chart. */
 function populateTop10PercentChart(stats, id) {
+    $('#' + id).slideDown();
     con = $('#' + id).find(".canvas-container");
     canvas = $('#' + id).find("canvas");
     lCon = $('#' + id).find(".legend-container");
@@ -446,6 +457,7 @@ function populateTop10PercentChart(stats, id) {
 
 /** Populate the hourly activity chart. */
 function populateHourlyActivityChart(hourlyActivity, id) {
+    $('#' + id).slideDown();
     con = $('#' + id).find(".canvas-container");
     canvas = $('#' + id).find("canvas");
 

@@ -12,13 +12,7 @@
 <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
 <![endif]-->
-{% if not stats.n_tasks_completed or stats.n_tasks_completed == 0 %}
-<div class="container container-main">
-    <div class="white-panel inset-shadow-white">
-        <h3 class="text-center">Statistics will be available once some tasks have been completed!</h3>
-    </div>
-</div>
-{% else %}
+<span class="set-body-bg" data-bg="pattern-brushed"></span>
 <div class="container container-main">
     <div id="loading" class="col-xs-12 padding-bottom-sm">
         <div class="white-panel inset-shadow-white">
@@ -28,13 +22,13 @@
 
     <div id="stats">
 
-        <div id="summary" class="col-xs-12 padding-bottom-sm">
+        <div id="summary" class="col-xs-12 padding-bottom-sm" style="display: none;">
             <div class="white-panel inset-shadow-white">
                 <h3 class="text-center text-stats"></h3>
             </div>
         </div>
 
-        <div id="leaderboard" class="col-xs-12 padding-bottom-sm">
+        <div id="leaderboard" class="col-xs-12 padding-bottom-sm" style="display: none;">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Most Active Volunteers</h4>
                 <div class="canvas-container">
@@ -46,20 +40,20 @@
             </div>
         </div>
 
-        <div id="locations-summary" class="col-xs-12 padding-bottom-sm">
+        <div id="locations-summary" class="col-xs-12 padding-bottom-sm" style="display: none;">
             <div class="white-panel inset-shadow-white">
                 <h3 class="text-stats text-center"></h3>
             </div>
         </div>
 
-        <div id="locations" class="col-xs-12 padding-bottom-sm">
+        <div id="locations" class="col-xs-12 padding-bottom-sm" style="display: none;">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Locations of Active Volunteers</h4>
                 <div id="map" style="height:480px;"></div>
             </div>
         </div>
 
-        <div id="top-countries" class="col-xs-12 padding-bottom-sm">
+        <div id="top-countries" class="col-xs-12 padding-bottom-sm" style="display: none;">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Most Active Countries</h4>
                 <div class="canvas-container">
@@ -85,7 +79,7 @@
             </div>
         </div>
 
-        <div id="daily-contributions" class="col-xs-12 padding-bottom-sm">
+        <div id="daily-contributions" class="col-xs-12 padding-bottom-sm" style="display: none;">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Daily Contributions</h4>
                 <div class="canvas-container">
@@ -94,7 +88,7 @@
             </div>
         </div>
 
-        <div id="top-users-this-week" class="col-xs-12 padding-bottom-sm">
+        <div id="top-users-this-week" class="col-xs-12 padding-bottom-sm" style="display: none;">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Most Active Volunteers This Week</h4>
                 <div class="canvas-container">
@@ -103,7 +97,7 @@
             </div>
         </div>
 
-        <div id="daily-volunteers" class="col-xs-12 padding-bottom-sm">
+        <div id="daily-volunteers" class="col-xs-12 padding-bottom-sm" style="display: none;">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Daily Volunteers</h4>
                 <div class="canvas-container">
@@ -114,7 +108,7 @@
 
         <div class="stats-row">
 
-            <div id="proportion-auth-users" class="col-sm-4 col-xs-12 padding-bottom-sm">
+            <div id="proportion-auth-users" class="col-sm-4 col-xs-12 padding-bottom-sm" style="display: none;">
                 <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Proportion of Authenticated Users</h4>
                     <div class="canvas-container">
@@ -124,7 +118,7 @@
                 </div>
             </div>
 
-            <div id="dow" class="col-sm-4 col-xs-12 padding-bottom-sm">
+            <div id="dow" class="col-sm-4 col-xs-12 padding-bottom-sm" style="display: none;">
                 <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Contributions per Day of the Week</h4>
                     <div class="canvas-container">
@@ -133,7 +127,7 @@
                 </div>
             </div>
 
-            <div id="top-10-percent" class="col-sm-4 col-xs-12 padding-bottom-sm">
+            <div id="top-10-percent" class="col-sm-4 col-xs-12 padding-bottom-sm" style="display: none;">
                 <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Most Active 10% of Volunteers</h4>
                     <div class="canvas-container">
@@ -145,7 +139,7 @@
 
         </div>
 
-        <div id="hourly-activity" class="row padding-bottom-sm">
+        <div id="hourly-activity" class="row padding-bottom-sm" style="display: none;">
             <div class="col-xs-12 padding-bottom-sm">
                 <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Total Hourly Activity</h4>
@@ -175,31 +169,29 @@ $(function(){
     var dow = {{ dow|safe }};
     var top5Users1Week = {{ top_5_users_1_week|safe }}
 
-    // Populate charts
-    populateSummary(stats, "summary");
-    populateLeaderboardChart(leaderboard, "leaderboard");
-    populateLocationsSummary(stats, "locations-summary");
-    populateLocationsChart(locs,"locations");
-    populateMostActiveCountriesChart(topCountries, "top-countries");
-    populateDailyContributionsChart(taskRunsDaily, "daily-contributions");
-    populateUsersPerDayChart(usersDaily, "daily-volunteers");
-    populateProportionAuthChart(stats, "proportion-auth-users");
-    populateDowChart(dow, "dow");
-    populateTop10PercentChart(stats, "top-10-percent");
-    populateTopUsersThisWeekChart(top5Users1Week, "top-users-this-week")
-    populateHourlyActivityChart(hourlyActivity, "hourly-activity");
-
-    $('#loading').slideUp();
-    $('#stats').slideDown();
+    // If no tasks completed
+    if (stats.n_tasks_completed === 0) {
+        $('#loading').children().children('h3').html('Statistics will be available once some tasks have been completed!');
+    } else {
+        // Populate charts
+        populateSummary(stats, "summary");
+        populateLeaderboardChart(leaderboard, "leaderboard");
+        populateLocationsSummary(stats, "locations-summary");
+        populateLocationsChart(locs, "locations");
+        populateMostActiveCountriesChart(topCountries, "top-countries");
+        populateDailyContributionsChart(taskRunsDaily, "daily-contributions");
+        populateUsersPerDayChart(usersDaily, "daily-volunteers");
+        populateProportionAuthChart(stats, "proportion-auth-users");
+        populateDowChart(dow, "dow");
+        populateTop10PercentChart(stats, "top-10-percent");
+        populateTopUsersThisWeekChart(top5Users1Week, "top-users-this-week")
+        populateHourlyActivityChart(hourlyActivity, "hourly-activity");
+        $('#loading').slideUp();
+    }
 });
 
 $(window).on("load resize", function() {
-    resizeStatsRow();});
-</script>
-{% endif %}
-<script>
-    $(function(){
-        $('body').addClass('pattern-white-wall');
-    });
+    resizeStatsRow();
+});
 </script>
 {% endblock %}

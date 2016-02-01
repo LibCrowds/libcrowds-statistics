@@ -125,11 +125,6 @@ function getRadarDataset(label, data) {
 /** Draw and return a bar chart in the default style. */
 function drawBarChart(canvas, container, data) {
     var ctx = canvas[0].getContext("2d");
-
-    // Set size each time chart is redrawn
-    canvas.attr("width", container.width());
-    canvas.attr("height", 300);
-
     var chart = new Chart(ctx).Bar(data);
     chart.draw();
     return chart;
@@ -139,8 +134,6 @@ function drawBarChart(canvas, container, data) {
 /** Draw and return a line chart in the default style. */
 function drawLineChart(canvas, container, data) {
     var ctx = canvas[0].getContext("2d");
-    canvas.attr("width", container.width());
-    canvas.attr("height", 300);
     var opts = {populateSparseData:true};
     var chart = new Chart(ctx).Line(data, opts);
     chart.draw();
@@ -151,8 +144,6 @@ function drawLineChart(canvas, container, data) {
 /** Draw and return a donut chart in the default style. */
 function drawDonutChart(canvas, container, data, legendContainer) {
     var ctx = canvas[0].getContext("2d");
-    canvas.attr("width", container.width());
-    canvas.attr("height", 300);
     var legendTemplate =  "<ul class=\"legend\">"
                         + "<% for (var i=0; i<segments.length; i++){%>"
                         + "<li><span style=\"background-color:"
@@ -169,8 +160,6 @@ function drawDonutChart(canvas, container, data, legendContainer) {
 /** Draw and return a radar chart in the default style. */
 function drawRadarChart(canvas, container, data) {
     var ctx = canvas[0].getContext("2d");
-    canvas.attr("width", container.width());
-    canvas.attr("height", 300);
     tooltipTemplate = "<%if(label)\u007B%><%=label%>: <%}%><%=value%>%";
     var opts = {populateSparseData:true, tooltipTemplate: tooltipTemplate};
     var chart = new Chart(ctx).Radar(data, opts);

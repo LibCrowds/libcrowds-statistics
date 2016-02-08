@@ -226,9 +226,8 @@ def get_top_n_countries(n=None):
         for row in results:
             if _verify_ip(row.ip_address):
                 loc = gic.record_by_addr(row.ip_address)
-                country = loc['country_name']
-                if country:
-                    all_countries[country] += row.n_task_runs
+                if loc:
+                    all_countries[loc['country_name']] += row.n_task_runs
                 else:
                     all_countries['Unknown'] += row.n_task_runs
 

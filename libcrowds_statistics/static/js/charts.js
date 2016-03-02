@@ -37,11 +37,13 @@ Chart.defaults.global= {
     tooltipCornerRadius: 6,
     tooltipXOffset: 10,
     tooltipTemplate:  "<%if(label)\u007B%><%=label%>: <%}%>"
-                    + "<%=value%> "
-                    + "<%if(value != 1)\u007B%>"
-                    + "<%=datasetLabel%>s"
-                    + "<%}else\u007B%>"
+                    + "<%=value%>"
+                    + "<%if(datasetLabel == '%')\u007B%>"
                     + "<%=datasetLabel%>"
+                    + "<%} else if(value != 1)\u007B%>"
+                    + " <%=datasetLabel%>s"
+                    + "<%}else\u007B%>"
+                    + " <%=datasetLabel%>"
                     + "<%}%>",
     onAnimationProgress: function() {},
     onAnimationComplete: function() {},
@@ -462,7 +464,7 @@ function populateHourlyActivityChart(hourlyActivity, id) {
     }
     var data = {
         labels: labels,
-        datasets: getLineDataset("percent", percentages)
+        datasets: getLineDataset("%", percentages)
     };
     drawLineChart(canvas, con, data);
 }

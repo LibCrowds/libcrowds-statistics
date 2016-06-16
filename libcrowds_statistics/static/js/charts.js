@@ -440,7 +440,7 @@ function populateTop10PercentChart(stats, id) {
     var top10 = stats.n_tr_top_10_percent
     var bottom90 = stats.n_task_runs - top10
     var top10Label = "Most Active 10%: " + pluralise(top10, "contribution")
-    var bottom90Label = "Remaining 10%: " + pluralise(bottom90, "contribution")
+    var bottom90Label = "Remaining 90%: " + pluralise(bottom90, "contribution")
     var data = getDonutDataset(top10Label, top10, bottom90Label, bottom90);
     drawDonutChart(canvas, con, data, lCon);
 }

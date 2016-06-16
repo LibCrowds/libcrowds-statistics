@@ -14,7 +14,5 @@ class StatisticsBlueprint(Blueprint):
     def __init__(self, **kwargs):
         defaults = {'name': 'statistics', 'import_name': __name__}
         defaults.update(kwargs)
-
         super(StatisticsBlueprint, self).__init__(**defaults)
-
         self.add_url_rule("/", view_func=index)

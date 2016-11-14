@@ -146,11 +146,11 @@
     </div>
 </div>
 <script src="{{url_for('statistics.static', filename='vendor/jquery-3.1.1.min.js')}}"></script>
-<script src="{{url_for('statistics.static', filename='js/charts.js')}}?v=0.2.0"></script>
+<script src="{{url_for('statistics.static', filename='vendor/moment.js')}}"></script>
 <script src="{{url_for('static', filename='vendor/leaflet/leaflet.js')}}"></script>
 <script src="{{url_for('statistics.static', filename='js/vendor/leaflet.markercluster.js')}}" type="text/javascript"></script>
-<script src="{{url_for('statistics.static', filename='js/vendor/moment.js')}}"></script>
 <script src="{{url_for('statistics.static', filename='js/vendor/Chart.js-master/Chart.js')}}"></script>
+<script src="{{url_for('statistics.static', filename='js/charts.js')}}?v=0.2.0"></script>
 <script>
 $(function(){
     var stats = {{ stats|safe }};

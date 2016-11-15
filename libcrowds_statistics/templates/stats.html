@@ -9,21 +9,16 @@
 <link rel="stylesheet" href="{{url_for('statistics.static', filename='css/charts.css')}}" />
 <span class="set-body-bg" data-bg="pattern-brushed"></span>
 <div class="container container-main">
-    <div id="loading" class="col-xs-12 padding-bottom-sm">
+
+    <div id="summary" class="col-xs-12 padding-bottom-sm">
         <div class="white-panel inset-shadow-white">
-            <h3 class="text-center"><span class="fa fa-refresh fa-spin"></span> Loading Statistics</h3>
+            <h3 class="text-center text-stats"></h3>
         </div>
     </div>
 
-    <div id="stats">
+    <section id="stats" style="display: none;">
 
-        <div id="summary" class="col-xs-12 padding-bottom-sm" style="display: none;">
-            <div class="white-panel inset-shadow-white">
-                <h3 class="text-center text-stats"></h3>
-            </div>
-        </div>
-
-        <div id="leaderboard" class="col-xs-12 padding-bottom-sm" style="display: none;">
+        <div id="leaderboard" class="col-xs-12 padding-bottom-sm">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Most Active Volunteers</h4>
                 <div class="canvas-container">
@@ -35,20 +30,20 @@
             </div>
         </div>
 
-        <div id="locations-summary" class="col-xs-12 padding-bottom-sm" style="display: none;">
+        <div id="locations-summary" class="col-xs-12 padding-bottom-sm">
             <div class="white-panel inset-shadow-white">
                 <h3 class="text-stats text-center"></h3>
             </div>
         </div>
 
-        <div id="locations" class="col-xs-12 padding-bottom-sm" style="display: none;">
+        <div id="locations" class="col-xs-12 padding-bottom-sm">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Locations of Active Volunteers</h4>
                 <div id="map" style="height:480px;"></div>
             </div>
         </div>
 
-        <div id="top-countries" class="col-xs-12 padding-bottom-sm" style="display: none;">
+        <div id="top-countries" class="col-xs-12 padding-bottom-sm">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Most Active Countries</h4>
                 <div class="canvas-container">
@@ -74,7 +69,7 @@
             </div>
         </div>
 
-        <div id="daily-contributions" class="col-xs-12 padding-bottom-sm" style="display: none;">
+        <div id="daily-contributions" class="col-xs-12 padding-bottom-sm">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Daily Contributions</h4>
                 <div class="canvas-container">
@@ -83,7 +78,7 @@
             </div>
         </div>
 
-        <div id="top-users-this-week" class="col-xs-12 padding-bottom-sm" style="display: none;">
+        <div id="top-users-this-week" class="col-xs-12 padding-bottom-sm">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Most Active Volunteers This Week</h4>
                 <div class="canvas-container">
@@ -92,7 +87,7 @@
             </div>
         </div>
 
-        <div id="daily-volunteers" class="col-xs-12 padding-bottom-sm" style="display: none;">
+        <div id="daily-volunteers" class="col-xs-12 padding-bottom-sm">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Daily Volunteers</h4>
                 <div class="canvas-container">
@@ -103,7 +98,7 @@
 
         <div class="stats-row">
 
-            <div id="proportion-auth-users" class="col-md-4 col-xs-12 padding-bottom-sm" style="display: none;">
+            <div id="proportion-auth-users" class="col-md-4 col-xs-12 padding-bottom-sm">
                 <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Proportion of Authenticated Users</h4>
                     <div class="canvas-container">
@@ -113,7 +108,7 @@
                 </div>
             </div>
 
-            <div id="dow" class="col-md-4 col-xs-12 padding-bottom-sm" style="display: none;">
+            <div id="dow" class="col-md-4 col-xs-12 padding-bottom-sm">
                 <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Contributions per Day of the Week</h4>
                     <div class="canvas-container">
@@ -122,7 +117,7 @@
                 </div>
             </div>
 
-            <div id="top-10-percent" class="col-md-4 col-xs-12 padding-bottom-sm" style="display: none;">
+            <div id="top-10-percent" class="col-md-4 col-xs-12 padding-bottom-sm">
                 <div class="white-panel inset-shadow-white">
                     <h4 class="padding-bottom-sm text-center">Most Active 10% of Volunteers</h4>
                     <div class="canvas-container">
@@ -134,7 +129,7 @@
 
         </div>
 
-        <div id="hourly-activity" class="col-xs-12 padding-bottom-sm" style="display: none;">
+        <div id="hourly-activity" class="col-xs-12 padding-bottom-sm">
             <div class="white-panel inset-shadow-white">
                 <h4 class="padding-bottom-sm text-center">Total Hourly Activity</h4>
                 <div class="canvas-container">
@@ -143,31 +138,30 @@
             </div>
         </div>
 
-    </div>
+    </section>
 </div>
 <script src="{{url_for('statistics.static', filename='vendor/jquery-3.1.1.min.js')}}"></script>
 <script src="{{url_for('statistics.static', filename='vendor/moment.js')}}"></script>
 <script src="{{url_for('statistics.static', filename='vendor/Chart.min.js')}}"></script>
-<script src="{{url_for('statistics.static', filename='js/charts.js')}}?v=1.0.2"></script>
+<script src="{{url_for('statistics.static', filename='js/charts.js')}}?v=1.0.5"></script>
 <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js"></script>
 <script>
 $(function(){
-    var stats = {{ stats|safe }};
-    var locs = {{ locs|safe }};
-    var leaderboard = {{ leaderboard|safe }};
-    var topCountries = {{top_countries|safe}};
-    var taskRunsDaily = {{ task_runs_daily|safe }};
-    var usersDaily = {{ users_daily|safe }};
-    var hourlyActivity = {{ hourly_activity|safe }};
-    var dow = {{ dow|safe }};
-    var top5Users1Week = {{ top_5_users_1_week|safe }}
+    let stats          = {{ stats|safe }},
+        locs           = {{ locs|safe }},
+        leaderboard    = {{ leaderboard|safe }},
+        topCountries   = {{top_countries|safe}},
+        taskRunsDaily  = {{ task_runs_daily|safe }},
+        usersDaily     = {{ users_daily|safe }},
+        hourlyActivity = {{ hourly_activity|safe }},
+        dow            = {{ dow|safe }},
+        top5Users1Week = {{ top_5_users_1_week|safe }};
 
-    // If no tasks completed
     if (stats.n_tasks_completed === 0) {
-        $('#loading').children().children('h3').html('Statistics will be available once some tasks have been completed!');
+        $('#summary').find('h3').html('Statistics will be available once some tasks have been completed!');
     } else {
-        // Populate charts
+        $('#stats').slideDown();
         populateSummary(stats, "summary");
         populateLeaderboardChart(leaderboard, "leaderboard");
         populateLocationsSummary(stats, "locations-summary");
@@ -178,9 +172,8 @@ $(function(){
         populateProportionAuthChart(stats, "proportion-auth-users");
         populateDowChart(dow, "dow");
         populateTop10PercentChart(stats, "top-10-percent");
-        populateTopUsersThisWeekChart(top5Users1Week, "top-users-this-week")
+        populateTopUsersThisWeekChart(top5Users1Week, "top-users-this-week");
         populateHourlyActivityChart(hourlyActivity, "hourly-activity");
-        $('#loading').slideUp();
     }
 });
 

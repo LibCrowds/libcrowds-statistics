@@ -37,13 +37,13 @@ Chart.defaults.global= {
     tooltipCornerRadius: 6,
     tooltipXOffset: 10,
     tooltipTemplate:  "<%if(label)\u007B%><%=label%>: <%}%>"
-                      + "<%=value%> "
+                      + "<%=value%>"
                       + "<%if(datasetLabel == '%')\u007B%>"
                       + "<%=datasetLabel%>"
                       + "<%} else if(value != 1)\u007B%>"
-                      + "<%=datasetLabel%>s"
+                      + " <%=datasetLabel%>s"
                       + "<%}else\u007B%>"
-                      + "<%=datasetLabel%>"
+                      + " <%=datasetLabel%>"
                       + "<%}%>",
     onAnimationProgress: function() {},
     onAnimationComplete: function() {},
@@ -307,6 +307,11 @@ function populateMostActiveCountriesChart(topCountries, id){
 
 /** Populate the contributions per day chart. */
 function populateDailyContributionsChart(taskRunsDaily, id) {
+    if(!taskRunsDaily.task_runs.length) {
+	$(`#${id}`).hide();
+	return;
+    }
+
     let days     = taskRunsDaily.days,
 	taskRuns = taskRunsDaily.task_runs,
 	labels   = [];
@@ -326,6 +331,11 @@ function populateDailyContributionsChart(taskRunsDaily, id) {
 
 /** Populate the users per day chart. */
 function populateUsersPerDayChart(usersDaily, id) {
+    if(!usersDaily.users.length) {
+	$(`#${id}`).hide();
+	return;
+    }
+
     let days   = usersDaily.days,
         users  = usersDaily.users;
         labels = [];
@@ -346,7 +356,7 @@ function populateUsersPerDayChart(usersDaily, id) {
 
 /** Populate the top users this week chart. */
 function populateTopUsersThisWeekChart(top5Users1Week, id) {
-    if(top5Users1Week.length < 2) {
+    if(!top5Users1Week.length) {
 	$(`#${id}`).hide();
 	return;
     }

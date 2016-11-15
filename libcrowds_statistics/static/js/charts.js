@@ -36,15 +36,15 @@ Chart.defaults.global= {
     tooltipCaretSize: 8,
     tooltipCornerRadius: 6,
     tooltipXOffset: 10,
-    tooltipTemplate:  `<%if(label)\u007B%><%=label%>: <%}%>
-                       <%=value%>
-                       <%if(datasetLabel == '%')\u007B%>
-                       <%=datasetLabel%>
-                       <%} else if(value != 1)\u007B%>
-                       <%=datasetLabel%>s
-                       <%}else\u007B%>
-                       <%=datasetLabel%>
-                       <%}%>`,
+    tooltipTemplate:  "<%if(label)\u007B%><%=label%>: <%}%>"
+                      + "<%=value%> "
+                      + "<%if(datasetLabel == '%')\u007B%>"
+                      + "<%=datasetLabel%>"
+                      + "<%} else if(value != 1)\u007B%>"
+                      + "<%=datasetLabel%>s"
+                      + "<%}else\u007B%>"
+                      + "<%=datasetLabel%>"
+                      + "<%}%>",
     onAnimationProgress: function() {},
     onAnimationComplete: function() {},
     segmentShowStroke:  true,

@@ -3,10 +3,10 @@
 {% set active_project  = "all" %}
 
 {% block content %}
-<link href="{{url_for('statistics.static', filename='css/vendor/MarkerCluster.css')}}" rel="stylesheet">
-<link href="{{url_for('statistics.static', filename='css/vendor/MarkerCluster.Default.css')}}" rel="stylesheet">
-<link href="{{url_for('statistics.static', filename='css/charts.css')}}" rel="stylesheet">
-<link rel="stylesheet" href="{{url_for('static', filename='vendor/leaflet/leaflet.css')}}" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="{{url_for('statistics.static', filename='css/charts.css')}}" />
 <span class="set-body-bg" data-bg="pattern-brushed"></span>
 <div class="container container-main">
     <div id="loading" class="col-xs-12 padding-bottom-sm">
@@ -147,10 +147,10 @@
 </div>
 <script src="{{url_for('statistics.static', filename='vendor/jquery-3.1.1.min.js')}}"></script>
 <script src="{{url_for('statistics.static', filename='vendor/moment.js')}}"></script>
-<script src="{{url_for('static', filename='vendor/leaflet/leaflet.js')}}"></script>
-<script src="{{url_for('statistics.static', filename='js/vendor/leaflet.markercluster.js')}}" type="text/javascript"></script>
 <script src="{{url_for('statistics.static', filename='js/vendor/Chart.js-master/Chart.js')}}"></script>
-<script src="{{url_for('statistics.static', filename='js/charts.js')}}?v=0.2.0"></script>
+<script src="{{url_for('statistics.static', filename='js/charts.js')}}?v=1.0.2"></script>
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js"></script>
 <script>
 $(function(){
     var stats = {{ stats|safe }};

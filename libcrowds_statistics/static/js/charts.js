@@ -230,36 +230,38 @@ function populateLocationsSummary(stats, id) {
 
 /** Populate the locations chart. */
 function populateLocationsChart(locs, id) {
+    console.log(locs);
     if(locs.length > 0) {
-        $('#' + id).slideDown();
-        var map = L.map('map', {scrollWheelZoom: false, minZoom:1});
+        $(`#${id}`).slideDown();
+        let map = L.map('map', {scrollWheelZoom: false, minZoom:1});
+	let token = 'pk.eyJ1IjoibGliY3Jvd2RzIiwiYSI6ImNpdmlxaHFzNTAwN3YydHBncHV3dHc3aXgifQ.V4WUx9SDcU_XLFJo2M3RxQ';
+	let url = `https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${token}`;
         map.fitWorld();
         map.setZoom(2);
-        var url = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-        L.tileLayer(url,
-            {
-            attribution: '&copy; <a href="http://osm.org/copyright"> \
-                                   OpenStreetMap \
-                                 </a> &mdash; \
-                                 <a href="http://www.maxmind.com"> \
-                                   MaxMind \
-                                 </a>',
-            maxZoom: 18
-            }).addTo(map);
-        var i = 0;
-        var locations = locs;
-        var l = locations.length;
-        var markers = new L.MarkerClusterGroup();
+        L.tileLayer(url, {
+            attribution: `Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,
+	                 <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy;
+			 <a href="http://mapbox.com">Mapbox</a>`,
+            maxZoom: 18,
+	    id: 'mapbox.streets',
+	    accessToken: token
+        }).addTo(map);
+	console.log(url);
+
+	let i = 0;
+        let locations = locs;
+        let l = locations.length;
+        let markers = new L.MarkerClusterGroup();
         for (i;i<l;i++) {
             if (locations[i].loc != null) {
-                var lat = parseFloat(locations[i].loc.latitude);
-                var lng = parseFloat(locations[i].loc.longitude);
+                let lat = parseFloat(locations[i].loc.latitude);
+                let lng = parseFloat(locations[i].loc.longitude);
                 markers.addLayer(L.marker([lat,lng]));
             }
         }
         map.addLayer(markers);
     } else {
-        $("#locations").hide();
+        $(`#${id}`).hide();
     }
 }
 

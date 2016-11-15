@@ -316,8 +316,7 @@ function populateDailyContributionsChart(taskRunsDaily, id) {
 	taskRuns = taskRunsDaily.task_runs,
 	labels   = [];
     $.each(days, function(i, date) {
-	let dateObj = new Date(date);
-	labels.push($.datepicker.formatDate('dd M', dateObj));
+	labels.push($.format.date(date, 'dd M'));
     });
 
     let con    = $(`#${id}`).find(".canvas-container"),
@@ -340,8 +339,7 @@ function populateUsersPerDayChart(usersDaily, id) {
         users  = usersDaily.users;
         labels = [];
     $.each(days, function(i, date) {
-        let dateObj = new Date(date);
-        labels.push($.datepicker.formatDate('dd M', dateObj));
+        labels.push($.format.date(date, 'dd M'));
     });
 
     let con    = $(`#${id}`).find(".canvas-container"),

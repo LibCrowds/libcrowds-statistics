@@ -143,7 +143,7 @@
 <script src="{{url_for('statistics.static', filename='vendor/jquery-3.1.1.min.js')}}"></script>
 <script src="{{url_for('statistics.static', filename='vendor/moment.js')}}"></script>
 <script src="{{url_for('statistics.static', filename='vendor/Chart.min.js')}}"></script>
-<script src="{{url_for('statistics.static', filename='js/charts.js')}}?v=1.0.5"></script>
+<script src="{{url_for('statistics.static', filename='js/charts.js')}}?v=1.0.10"></script>
 <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js"></script>
 <script>
@@ -161,7 +161,7 @@ $(function(){
     if (stats.n_tasks_completed === 0) {
         $('#summary').find('h3').html('Statistics will be available once some tasks have been completed!');
     } else {
-        $('#stats').slideDown();
+        $('#stats').show();
         populateSummary(stats, "summary");
         populateLeaderboardChart(leaderboard, "leaderboard");
         populateLocationsSummary(stats, "locations-summary");

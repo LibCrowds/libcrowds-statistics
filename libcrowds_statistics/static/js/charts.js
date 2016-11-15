@@ -36,15 +36,15 @@ Chart.defaults.global= {
     tooltipCaretSize: 8,
     tooltipCornerRadius: 6,
     tooltipXOffset: 10,
-    tooltipTemplate:  "<%if(label)\u007B%><%=label%>: <%}%>"
-                    + "<%=value%>"
-                    + "<%if(datasetLabel == '%')\u007B%>"
-                    + "<%=datasetLabel%>"
-                    + "<%} else if(value != 1)\u007B%>"
-                    + " <%=datasetLabel%>s"
-                    + "<%}else\u007B%>"
-                    + " <%=datasetLabel%>"
-                    + "<%}%>",
+    tooltipTemplate:  `<%if(label)\u007B%><%=label%>: <%}%>
+                       <%=value%>
+                       <%if(datasetLabel == '%')\u007B%>
+                       <%=datasetLabel%>
+                       <%} else if(value != 1)\u007B%>
+                       <%=datasetLabel%>s
+                       <%}else\u007B%>
+                       <%=datasetLabel%>
+                       <%}%>`,
     onAnimationProgress: function() {},
     onAnimationComplete: function() {},
     segmentShowStroke:  true,
@@ -54,7 +54,7 @@ Chart.defaults.global= {
     animateRotate:  true,
     animateScale:  false,
     labelLength: 10
-}
+};
 
 
 /** Highlights the bar in red. */
@@ -96,16 +96,16 @@ function getBarDataset(label, data){
 
 /** Returns a donut chart dataset in the default style. */
 function getDonutDataset(label1, data1, label2, data2){
-return [{
-    label: label1,
-    color:"rgba(186, 0, 0, 1)",
-    highlight: "rgba(208, 0, 0, 1)",
-    value : data1
+    return [{
+	label: label1,
+	color:"rgba(186, 0, 0, 1)",
+	highlight: "rgba(208, 0, 0, 1)",
+	value : data1
     }, {
-    label: label2,
-    color: "rgba(151, 187, 205, 1)",
-    highlight: "rgba(151, 187, 205, 0.8)",
-    value: data2
+	label: label2,
+	color: "rgba(151, 187, 205, 1)",
+	highlight: "rgba(151, 187, 205, 0.8)",
+	value: data2
     }];
 }
 
@@ -121,13 +121,13 @@ function getRadarDataset(label, data) {
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(151,187,205,1)",
         data: data
-        }];
+    }];
  }
 
 /** Draw and return a bar chart in the default style. */
 function drawBarChart(canvas, container, data) {
-    var ctx = canvas[0].getContext("2d");
-    var chart = new Chart(ctx).Bar(data);
+    let ctx   = canvas[0].getContext("2d"),
+        chart = new Chart(ctx).Bar(data);
     chart.draw();
     return chart;
 }
@@ -135,9 +135,9 @@ function drawBarChart(canvas, container, data) {
 
 /** Draw and return a line chart in the default style. */
 function drawLineChart(canvas, container, data) {
-    var ctx = canvas[0].getContext("2d");
-    var opts = {populateSparseData:true};
-    var chart = new Chart(ctx).Line(data, opts);
+    let ctx   = canvas[0].getContext("2d"),
+        opts  = {populateSparseData:true},
+        chart = new Chart(ctx).Line(data, opts);
     chart.draw();
     return chart;
 }
@@ -145,26 +145,26 @@ function drawLineChart(canvas, container, data) {
 
 /** Draw and return a donut chart in the default style. */
 function drawDonutChart(canvas, container, data, legendContainer) {
-    var ctx = canvas[0].getContext("2d");
-    var legendTemplate =  "<ul class=\"legend\">"
-                        + "<% for (var i=0; i<segments.length; i++){%>"
-                        + "<li><span style=\"background-color:"
-                        + "<%=segments[i].fillColor%>\"></span>"
-                        + "<%if(segments[i].label){%><%=segments[i].label%>"
-                        + "<%}%></li><%}%></ul>";
-    var opts = {tooltipTemplate: "<%=label%>", legendTemplate: legendTemplate};
-    var chart = new Chart(ctx).Doughnut(data, opts);
-    legend = chart.generateLegend();
+    let legendTemplate = `<ul class=\"legend\">
+                          <% for (var i=0; i<segments.length; i++){%>
+                          <li><span style=\"background-color:
+                          <%=segments[i].fillColor%>\"></span>
+                          <%if(segments[i].label){%><%=segments[i].label%>
+                          <%}%></li><%}%></ul>`;
+    let ctx    = canvas[0].getContext("2d"),
+        opts   = {tooltipTemplate: "<%=label%>", legendTemplate: legendTemplate},
+        chart  = new Chart(ctx).Doughnut(data, opts),
+        legend = chart.generateLegend();
     legendContainer.html(legend);
 }
 
 
 /** Draw and return a radar chart in the default style. */
 function drawRadarChart(canvas, container, data) {
-    var ctx = canvas[0].getContext("2d");
-    tooltipTemplate = "<%if(label)\u007B%><%=label%>: <%}%><%=value%>%";
-    var opts = {populateSparseData:true, tooltipTemplate: tooltipTemplate};
-    var chart = new Chart(ctx).Radar(data, opts);
+    let tooltipTemplate = "<%if(label)\u007B%><%=label%>: <%}%><%=value%>%";
+    let ctx   = canvas[0].getContext("2d"),
+        opts  = {populateSparseData:true, tooltipTemplate: tooltipTemplate},
+        chart = new Chart(ctx).Radar(data, opts);
     chart.draw();
     return chart;
 }
@@ -173,69 +173,63 @@ function drawRadarChart(canvas, container, data) {
 /** Return n followed by noun, pluralised with suffix, if necessary. */
 function pluralise(n, noun, suffix){
     suffix = (typeof suffix === 'undefined') ? 's' : suffix;
-    var str = n + ' ';
     if (suffix == 'ies') {
-        return str + noun.substring(0, noun.length - 1) + suffix;
+        return `${n} ` + noun.substring(0, noun.length - 1) + suffix;
     }
-    str = str + noun;
     if (n == 1) {
-        return str;
+        return `${n} ${noun}`;
     }
-    return str + suffix;
+    return `${n} ${noun}${suffix}`;
 }
 
 
 /** Sets all chart containers in a stats-row to the same height. */
 function resizeStatsRow() {
-    if($(window).width() > 991) {
-        var m2 = 0;
+    if ($(window).width() > 991) {
+        let m2 = 0;
         $(".stats-row").children().children().height("");
         $(".stats-row").children().children().each(function(i, el) {
-	m2 = Math.max(m2, $(el).height());
-    });
-    $(".stats-row").children().children().height(m2);
+	    m2 = Math.max(m2, $(el).height());
+	});
+	$(".stats-row").children().children().height(m2);
     }
 }
 
 
 /** Populate the statistics summary. */
 function populateSummary(stats, id) {
-    $('#' + id).slideDown();
-    var n_volunteers = stats.n_auth + stats.n_anon
-    var volunteers = pluralise(n_volunteers, 'volunteer');
-    var projects = pluralise(stats.n_published_projects, 'project');
-    var contributions = pluralise(stats.n_task_runs, 'contribution');
-    var tasks = pluralise(stats.n_tasks_completed, 'task');
-    have = (n_volunteers === 1) ? ' has' : ' have';
-    var summary = ''.concat(volunteers, have, ' participated in ',
-                            projects, ', made ',
-                            contributions, ' and completed ',
-                            tasks,
-                            '.');
-    $('#' + id).find(".text-stats").html(summary);
+    $(`#${id}`).slideDown();
+    let n_volunteers  = stats.n_auth + stats.n_anon,
+        volunteers    = pluralise(n_volunteers, 'volunteer'),
+        projects      = pluralise(stats.n_published_projects, 'project'),
+        contributions = pluralise(stats.n_task_runs, 'contribution'),
+        tasks         = pluralise(stats.n_tasks_completed, 'task'),
+        have          = (n_volunteers === 1) ? ' has' : ' have',
+        summary       = `${volunteers}${have} participated in ${projects},
+                        made ${contributions} and complete ${tasks}.`;
+    $(`#${id}`).find(".text-stats").html(summary);
 }
 
 
 /** Populate the locations summary. */
 function populateLocationsSummary(stats, id) {
-    $('#' + id).slideDown();
-    var continents = pluralise(stats.n_continents, 'continent');
-    var countries = pluralise(stats.n_countries, 'country', 'ies');
-    var cities = pluralise(stats.n_cities, 'city', 'ies');
-    var summary = ''.concat('Contributions have been made from ', continents,
-                            ', ', countries, ' and ', cities, '.');
-    $('#' + id).find(".text-stats").html(summary);
+    $(`#${id}`).slideDown();
+    let continents = pluralise(stats.n_continents, 'continent'),
+        countries  = pluralise(stats.n_countries, 'country', 'ies'),
+        cities     = pluralise(stats.n_cities, 'city', 'ies'),
+        summary    = `Contributions have been made from ${continents},
+                     ${countries} and ${cities}.`;
+    $(`#${id}`).find(".text-stats").html(summary);
 }
 
 
 /** Populate the locations chart. */
 function populateLocationsChart(locs, id) {
-    console.log(locs);
     if(locs.length > 0) {
         $(`#${id}`).slideDown();
-        let map = L.map('map', {scrollWheelZoom: false, minZoom:1});
-	let token = 'pk.eyJ1IjoibGliY3Jvd2RzIiwiYSI6ImNpdmlxaHFzNTAwN3YydHBncHV3dHc3aXgifQ.V4WUx9SDcU_XLFJo2M3RxQ';
-	let url = `https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${token}`;
+        let map   = L.map('map', {scrollWheelZoom: false, minZoom:1}),
+	    token = 'pk.eyJ1IjoibGliY3Jvd2RzIiwiYSI6ImNpdmlxaHFzNTAwN3YydHBncHV3dHc3aXgifQ.V4WUx9SDcU_XLFJo2M3RxQ',
+	    url   = `https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${token}`;
         map.fitWorld();
         map.setZoom(2);
         L.tileLayer(url, {
@@ -246,216 +240,202 @@ function populateLocationsChart(locs, id) {
 	    id: 'mapbox.streets',
 	    accessToken: token
         }).addTo(map);
-	console.log(url);
 
 	let i = 0;
         let locations = locs;
         let l = locations.length;
         let markers = new L.MarkerClusterGroup();
-        for (i;i<l;i++) {
-            if (locations[i].loc != null) {
-                let lat = parseFloat(locations[i].loc.latitude);
-                let lng = parseFloat(locations[i].loc.longitude);
-                markers.addLayer(L.marker([lat,lng]));
+        for (i; i < l; i++) {
+            if (locations[i].loc !== null) {
+                let lat = parseFloat(locations[i].loc.latitude),
+		    lng = parseFloat(locations[i].loc.longitude);
+                markers.addLayer(L.marker([lat, lng]));
             }
         }
         map.addLayer(markers);
-    } else {
-        $(`#${id}`).hide();
     }
 }
 
 
 /** Populate the leaderboard chart. */
 function populateLeaderboardChart(leaderboard, id){
-    con = $('#' + id).find(".canvas-container");
-    canvas = $('#' + id).find("canvas");
-
     if(leaderboard.length > 0) {
-        $('#' + id).slideDown();
-        var users = [];
-        var scores = [];
-        for (i = 0; i < leaderboard.length; i++) {
-            users.push(leaderboard[i].name);
-            scores.push(parseInt(leaderboard[i].score));
-        }
-        var data = {
-            labels: users,
-            datasets: getBarDataset("contribution", scores)
-        };
-        chart = drawBarChart(canvas, con, data);
-        var highScore = scores.indexOf(Math.max.apply(Math, scores));
-        highlightBar(chart.datasets[0].bars[highScore]);
-        chart.update();
-    } else {
-        $('#' + id).hide();
+	$(`#${id}`).slideDown();
+	let users  = [],
+	    scores = [];
+	for (i = 0; i < leaderboard.length; i++) {
+	    users.push(leaderboard[i].name);
+	    scores.push(parseInt(leaderboard[i].score));
+	}
+
+	let con    = $(`#${id}`).find(".canvas-container"),
+	    canvas = $(`#${id}`).find("canvas"),
+	    data   = {
+		labels: users,
+		datasets: getBarDataset("contribution", scores)
+	    };
+	let chart = drawBarChart(canvas, con, data);
+	let highScore = scores.indexOf(Math.max.apply(Math, scores));
+	highlightBar(chart.datasets[0].bars[highScore]);
+	chart.update();
+	$(`#${id}`).slideDown();
     }
 }
 
 
 /** Populate the most active countries chart. */
 function populateMostActiveCountriesChart(topCountries, id){
-    con = $("#" + id).find(".canvas-container");
-    canvas = $("#" + id).find("canvas");
-    tbody = $("#" + id).find("tbody");
-
-    if(topCountries['countries'].length > 0) {
-        $('#' + id).slideDown();
-        var countries = topCountries['countries'];
-        var taskRuns = topCountries['n_task_runs'];
-
-        var data = {
-            labels: countries.slice(0,5),
-            datasets: getBarDataset("contribution", taskRuns.slice(0,5))
-        };
-        chart = drawBarChart(canvas, con, data)
+    if (topCountries.countries.length > 0) {
+	$(`#${id}`).slideDown();
+	let countries = topCountries.countries,
+            taskRuns  = topCountries.n_task_runs;
+	let con    = $(`#${id}`).find(".canvas-container"),
+	    canvas = $(`#${id}`).find("canvas"),
+	    data = {
+		labels: countries.slice(0,5),
+		datasets: getBarDataset("contribution", taskRuns.slice(0,5))
+	    };
+        let chart = drawBarChart(canvas, con, data);
         highlightBar(chart.datasets[0].bars[0]);
         chart.update();
 
         // Populate the table
-        var rows = '';
         $.each(countries, function(i){
-            rows = rows + '<tr><td class="text-center">' + countries[i] +
-            '</td><td class="text-center">' + taskRuns[i] +
-            '</td></tr>';
+	    $(`#${id}`).find("tbody").append(
+		`<tr>
+		<td class="text-center">${countries[i]}</td>
+		<td class="text-center">${taskRuns[i]}</td>
+		</tr>`
+	    );
         });
-        tbody.html(rows);
-    } else {
-        $("#most-active-countries").hide();
     }
 }
 
 
 /** Populate the contributions per day chart. */
 function populateDailyContributionsChart(taskRunsDaily, id) {
-    con = $("#" + id).find(".canvas-container");
-    canvas = $("#" + id).find("canvas");
-
-    if(taskRunsDaily['days'].length > 0) {
-        $('#' + id).slideDown();
-        days = taskRunsDaily['days'];
-        taskRuns = taskRunsDaily['task_runs'];
-        var labels = [];
-        $.each(days, function(i, date){
-            var dateObj = new Date(date);
+    if(taskRunsDaily.days.length > 0) {
+	$(`#${id}`).slideDown();
+	let days     = taskRunsDaily.days,
+            taskRuns = taskRunsDaily.task_runs,
+	    labels   = [];
+	$.each(days, function(i, date) {
+            let dateObj = new Date(date);
             labels.push($.datepicker.formatDate('dd M', dateObj));
         });
-        var data = {
-            labels: labels,
-            datasets: getLineDataset("contribution", taskRuns)
-        };
+
+	let con    = $(`#${id}`).find(".canvas-container"),
+	    canvas = $(`#${id}`).find("canvas"),
+	    data   = {
+		labels: labels,
+		datasets: getLineDataset("contribution", taskRuns)
+	    };
         drawLineChart(canvas, con, data);
-    } else {
-        $("#" + id).hide();
     }
 }
 
 /** Populate the users per day chart. */
 function populateUsersPerDayChart(usersDaily, id) {
-    $('#' + id).slideDown();
-    con = $("#" + id).find(".canvas-container");
-    canvas = $("#" + id).find("canvas");
-    days = usersDaily['days'];
-    users = usersDaily['users'];
-    var labels = [];
-    $.each(days, function(i, date){
-        var dateObj = new Date(date);
+    $(`#${id}`).slideDown();
+    let days   = usersDaily.days,
+        users  = usersDaily.users;
+        labels = [];
+    $.each(days, function(i, date) {
+        let dateObj = new Date(date);
         labels.push($.datepicker.formatDate('dd M', dateObj));
     });
-    var data = {
-        labels: labels,
-        datasets: getLineDataset("volunteer", users)
-    };
+
+    let con    = $(`#${id}`).find(".canvas-container"),
+        canvas = $(`#${id}`).find("canvas"),
+	data   = {
+	    labels: labels,
+	    datasets: getLineDataset("volunteer", users)
+	};
     drawLineChart(canvas, con, data);
 }
 
 
 /** Populate the top users this week chart. */
 function populateTopUsersThisWeekChart(top5Users1Week, id) {
-    con = $("#" + id).find(".canvas-container");
-    canvas = $("#" + id).find("canvas");
-
     if(top5Users1Week.length > 0) {
-        $('#' + id).slideDown();
-        var users = [];
-        var taskRuns = [];
+	$(`#${id}`).slideDown();
+        var users    = [],
+            taskRuns = [];
         for (i = 0; i < top5Users1Week.length; i++) {
             users.push(top5Users1Week[i]['name']);
             taskRuns.push(parseInt(top5Users1Week[i]['task_runs']));
         }
-        var data = {
-            labels: users,
-            datasets: getBarDataset("contribution", taskRuns)
-        };
-        chart = drawBarChart(canvas, con, data);
-        var highScore = taskRuns.indexOf(Math.max.apply(Math, taskRuns));
+
+	let con    = $(`#${id}`).find(".canvas-container"),
+	    canvas = $(`#${id}`).find("canvas"),
+            data   = {
+		labels: users,
+		datasets: getBarDataset("contribution", taskRuns)
+	    };
+	let chart = drawBarChart(canvas, con, data);
+        let highScore = taskRuns.indexOf(Math.max.apply(Math, taskRuns));
         highlightBar(chart.datasets[0].bars[highScore]);
         chart.update();
-    } else {
-        $("#" + id).hide();
     }
 }
 
 
 /** Populate the proportion authenticated chart. */
 function populateProportionAuthChart(stats, id) {
-    $('#' + id).slideDown();
-    con = $("#" + id).find(".canvas-container");
-    canvas = $("#" + id).find("canvas");
-    lCon = $("#" + id).find(".legend-container");
+    $(`#${id}`).slideDown();
+    let total       = stats.n_auth + stats.n_anon,
+	authPercent = Math.round(stats.n_auth/total*100),
+	anonPercent = Math.round(stats.n_anon/total*100),
+	authUsers   = pluralise(stats.n_auth, " user"),
+	anonUsers   = pluralise(stats.n_anon, " user"),
+        authLabel   = `Authenticated: ${authPercent}% (${authUsers})`,
+	anonLabel   = `Authenticated: ${anonPercent}% (${anonUsers})`;
 
-    var total = stats.n_auth + stats.n_anon;
-    var authLabel = ''.concat("Authenticated: ",
-                              Math.round(stats.n_auth/total*100),
-                              "% (" + pluralise(stats.n_auth, " user"), ')');
-    var anonLabel = ''.concat("Anonymous: ",
-                              Math.round(stats.n_anon/total*100),
-                              "% (" + pluralise(stats.n_anon, " user"), ')');
-    var data = getDonutDataset(authLabel, stats.n_auth, anonLabel, stats.n_anon);
-    drawDonutChart(canvas, con, data, lCon);
+    let con       = $(`#${id}`).find(".canvas-container"),
+        canvas    = $(`#${id}`).find("canvas"),
+        legendCon = $(`#${id}`).find(".legend-container"),
+	data      = getDonutDataset(authLabel, stats.n_auth, anonLabel, stats.n_anon);
+    drawDonutChart(canvas, con, data, legendCon);
 }
 
 
 /** Populate the contributions per day chart. */
 function populateDowChart(dow, id) {
-    $('#' + id).slideDown();
-    con = $("#" + id).find(".canvas-container");
-    canvas = $("#" + id).find("canvas");
+    $(`#${id}`).slideDown();
+    let labels      = dow.days,
+        percentages = dow.percentages;
 
-    var labels = dow['days'];
-    var percentages = dow['percentages'];
-    var data = {
-        labels: labels,
-        datasets: getRadarDataset("day", percentages)
+    let con    = $(`#${id}`).find(".canvas-container"),
+        canvas = $(`#${id}`).find("canvas"),
+	data   = {
+	    labels: labels,
+	    datasets: getRadarDataset("day", percentages)
         };
-    drawRadarChart(canvas, con, data)
+    drawRadarChart(canvas, con, data);
 }
 
 
 /** Populate the top 10 percent chart. */
 function populateTop10PercentChart(stats, id) {
-    $('#' + id).slideDown();
-    con = $('#' + id).find(".canvas-container");
-    canvas = $('#' + id).find("canvas");
-    lCon = $('#' + id).find(".legend-container");
+    $(`#${id}`).slideDown();
+    let top10 = stats.n_tr_top_10_percent,
+        bottom90 = stats.n_task_runs - top10,
+        top10Label = "Most Active 10%: " + pluralise(top10, "contribution"),
+        bottom90Label = "Remaining 90%: " + pluralise(bottom90, "contribution");
 
-    var top10 = stats.n_tr_top_10_percent
-    var bottom90 = stats.n_task_runs - top10
-    var top10Label = "Most Active 10%: " + pluralise(top10, "contribution")
-    var bottom90Label = "Remaining 90%: " + pluralise(bottom90, "contribution")
-    var data = getDonutDataset(top10Label, top10, bottom90Label, bottom90);
-    drawDonutChart(canvas, con, data, lCon);
+    let con       = $(`#${id}`).find(".canvas-container"),
+        canvas    = $(`#${id}`).find("canvas"),
+        legendCon = $(`#${id}`).find(".legend-container"),
+	data = getDonutDataset(top10Label, top10, bottom90Label, bottom90);
+    drawDonutChart(canvas, con, data, legendCon);
 }
 
 
 /** Populate the hourly activity chart. */
 function populateHourlyActivityChart(hourlyActivity, id) {
-    $('#' + id).slideDown();
-    con = $('#' + id).find(".canvas-container");
-    canvas = $('#' + id).find("canvas");
-
-    var labels = [];
-    var percentages = [];
+    $(`#${id}`).slideDown();
+    var labels      = [],
+        percentages = [];
     for(var i = 0; i < hourlyActivity.length; i++) {
         hour = hourlyActivity[i][0] + ':00'
         if (hour.length < 5) {
@@ -464,9 +444,12 @@ function populateHourlyActivityChart(hourlyActivity, id) {
         labels.push(hour);
         percentages.push(hourlyActivity[i][1]);
     }
-    var data = {
-        labels: labels,
-        datasets: getLineDataset("%", percentages)
-    };
+
+    let con    = $(`#${id}`).find(".canvas-container"),
+        canvas = $(`#${id}`).find("canvas");
+	data   = {
+	    labels: labels,
+	    datasets: getLineDataset("%", percentages)
+	};
     drawLineChart(canvas, con, data);
 }

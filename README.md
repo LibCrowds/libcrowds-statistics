@@ -1,9 +1,7 @@
 # libcrowds-statistics
 
-[![Build Status](https://travis-ci.org/LibCrowds/libcrowds-statistics.svg?branch=master)]
-(https://travis-ci.org/LibCrowds/libcrowds-statistics)
-[![Coverage Status](https://coveralls.io/repos/LibCrowds/libcrowds-statistics/badge.svg)]
-(https://coveralls.io/github/LibCrowds/libcrowds-statistics?branch=master)
+[![Build Status](https://travis-ci.org/LibCrowds/libcrowds-statistics.svg?branch=master)](https://travis-ci.org/LibCrowds/libcrowds-statistics)
+[![Coverage Status](https://coveralls.io/repos/LibCrowds/libcrowds-statistics/badge.svg)](https://coveralls.io/github/LibCrowds/libcrowds-statistics?branch=master)
 
 Global statistics page for LibCrowds, designed to integrate with the
 [libcrowds-pybossa-theme](https://github.com/LibCrowds/libcrowds-pybossa-theme) and
